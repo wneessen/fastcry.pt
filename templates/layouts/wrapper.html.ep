@@ -1,0 +1,4 @@
+%= include 'layouts/head';
+%= include 'layouts/topnavi';
+%= content;
+%= include 'layouts/foot';

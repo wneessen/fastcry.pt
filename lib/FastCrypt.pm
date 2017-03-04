@@ -23,6 +23,7 @@ sub startup {
 
     ## Load some AppHelper plugins
     $self->plugin('FastCrypt::Plugin::ApiHelper');
+    $self->plugin('FastCrypt::Plugin::CryptoHelper');
     $self->plugin('FastCrypt::Plugin::TemplateHelper');
 
     ## Router
@@ -39,4 +40,4 @@ sub startup {
 # }}}
 
 1;
-# vim: set ts=4 sw=4 sts=4 noet ft=perl norl:
+# vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

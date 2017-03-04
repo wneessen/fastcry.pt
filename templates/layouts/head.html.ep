@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		%= t meta => (charset => 'utf-8')
+		%= t meta => (name => 'viewport', content => 'width=device-width, initial-scale=1.0')
+		%= t title => app->config->{productName}
+		%= stylesheet('/css/fastcrypt.css?' . app->config->{version})
+		%= stylesheet('/css/font-awesome.min.css?' . app->config->{version})
+		%= stylesheet('//fonts.googleapis.com/css?family=Baumans|Comfortaa:300,400,700');
+		%= javascript('/foundation/js/vendor/modernizr.js?' . app->config->{version})
+	</head>
+	<body>

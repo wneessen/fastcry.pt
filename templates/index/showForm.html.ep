@@ -1,0 +1,30 @@
+			<%== devHtmlComment('begin entry form section') %>
+			<div class="topMargin"></div>
+			<div class="row" id="entryForm">
+				<div id="formBox" class="small-10 medium-8 large-8 small-centered columns">
+					<form id="loginForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/store">
+						<fieldset class="basicForm formFieldset radius">
+							<legend>Store a note</legend>
+							% if (my $errorMsg = stash 'errorMsg') {
+							<div id="errorMessage" data-alert class="alert-box alert radius" aria-live="assertive" role="dialogalert">
+								<span>
+								% if (defined($errorMsg)) {
+									<%= $errorMsg %>
+								% } else {
+									%= 'Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktiere den Support'
+								% }
+								</span>
+							</div>
+							% }
+							<div id="noteField">
+								<label>Tell me what to store
+									%= text_area('fastcrypt_entry', id => 'entryBox', class => 'radius', placeholder => 'Put your message here', cols => 40);
+								</label>
+							</div>
+							%= csrf_field
+							<button class="small radius" type="submit">Store</button>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<%== devHtmlComment('end entry form section') %>

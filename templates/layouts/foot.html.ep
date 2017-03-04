@@ -1,0 +1,15 @@
+		%== devHtmlComment('Begin Foundation JavaScript includes');
+		%= javascript('/foundation/js/vendor/jquery.js?' . app->config->{version})
+		%= javascript('/foundation/js/foundation/foundation.js?' . app->config->{version})
+		%= javascript('/foundation/js/foundation/foundation.alert.js?' . app->config->{version})
+		%= javascript('/foundation/js/foundation/foundation.reveal.js?' . app->config->{version})
+		%= javascript('/foundation/js/foundation/foundation.topbar.js?' . app->config->{version})
+		%= javascript('/foundation/js/foundation/foundation.tooltip.js?' . app->config->{version})
+		%= javascript('/js/fastcrypt.js?' . app->config->{version})
+		%= javascript begin
+			$(document).foundation();
+		% end
+		%== devHtmlComment('End Foundation JavaScript includes');
+	</body>
+%== devHtmlComment(app->config->{productName} . ' v' . app->config->{version});
+</html>

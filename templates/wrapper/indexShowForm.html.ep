@@ -1,0 +1,2 @@
+% layout 'wrapper';
+%= include 'index/showForm';
