@@ -75,15 +75,17 @@
 	border-color: #a9bac7;
     box-shadow: 0 0 5px #a9bac7;
 }
-.basicForm a {
-	color: $darkgray;
+.basicForm legend {
+	background:	none;
+	background-color: none;
 }
 .formFieldset {
 	&.radius {
 		@include radius;
 	}
 }
-.forgotPw {
-	font-size: rem-calc(12);
+textarea#entryBox {
+	height: 500px;
+	font-family: monospace;
 }
 /* Lightbox specific definitions end here */
