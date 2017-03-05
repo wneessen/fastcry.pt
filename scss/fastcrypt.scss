@@ -101,6 +101,17 @@ textarea#entryBox {
 	margin: 0;
 	margin-left: -0.1875rem;
 }
+.successModal input {
+	margin-bottom: 0px;
+}
+.successModal small {
+	margin-top: -10px;
+	font-size: rem-calc(11);
+	font-weight: lighter;
+	text-align: center;
+	color: $red;
+	text-transform: none;
+}
 textarea#decBox {
 	height: 400px;
 	font-family: monospace;
