@@ -18,4 +18,4 @@ sub showForm {
 # }}}
 
 1;
-# vim: set ts=4 sw=4 sts=4 noet ft=perl norl:
+# vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

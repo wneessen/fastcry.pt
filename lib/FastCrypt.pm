@@ -36,6 +36,7 @@ sub startup {
 
     ## Web interface routes
     $r->get('/')->to('index#showForm')->name('defaultForm');
+    $r->get('/d/:uuid' => [uuid => qr/^[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+$/])->to('index#showDecrypt')->name('decryptForm');
 }
 # }}}
 

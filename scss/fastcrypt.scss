@@ -88,4 +88,12 @@ textarea#entryBox {
 	height: 500px;
 	font-family: monospace;
 }
+.successModal label {
+	font-size: rem-calc(18);
+	font-weight: bold;
+	background: #FFFFFF;
+	padding: 0 0.1875rem;
+	margin: 0;
+	margin-left: -0.1875rem;
+}
 /* Lightbox specific definitions end here */

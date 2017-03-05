@@ -6050,4 +6050,14 @@ textarea#entryBox {
   font-family: monospace;
 }
 
+/* line 91, ../../scss/fastcrypt.scss */
+.successModal label {
+  font-size: 1.125rem;
+  font-weight: bold;
+  background: #FFFFFF;
+  padding: 0 0.1875rem;
+  margin: 0;
+  margin-left: -0.1875rem;
+}
+
 /* Lightbox specific definitions end here */

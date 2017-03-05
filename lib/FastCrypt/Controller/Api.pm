@@ -80,29 +80,33 @@ sub storeEntry {
 	}
 
 	## Let open the file first
-	open(ENCFILE, '>', $filePath . '/data') or do {
+	open (ENCFILE, '>', $filePath . '/data') or do {
 		$self->app->log->error('Unable to open file for writing: ' . $1);
 		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
 	};
 
 	## Encrypt the data and store it
 	my $encData = $self->encData($entryData, $encPass);
+	if (!defined($encData)) {
+		$self->app->log->error('Encryption returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
 	syswrite(ENCFILE, $encData);
-	$self->app->log->debug($encPass);
-
-
 	close(ENCFILE);
 
-	#$self->app->log->debug($self->encData($entryData, $encPass), $encPass);
-	
+	## We are good so far
+	$self->session(encPass => $encPass);
 	return $self->render(
 		status	=> 200,
 		json	=> {
 			status		=> 'ok',
 			statuscode	=> 200,
+			url			=> $self->url_for('decryptForm', uuid => $uuid),
+			password	=> $encPass,
 		},
 	);
-
 }
 # }}}
 

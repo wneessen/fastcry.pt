@@ -6,6 +6,7 @@
 		%= javascript('/foundation/js/foundation/foundation.topbar.js?' . app->config->{version})
 		%= javascript('/foundation/js/foundation/foundation.tooltip.js?' . app->config->{version})
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
+		%= javascript('/js/sweetalert.min.js?' . app->config->{version})
 		%= javascript begin
 			$(document).foundation();
 		% end

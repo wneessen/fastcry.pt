@@ -1,8 +1,8 @@
 			<%== devHtmlComment('begin entry form section') %>
 			<div class="topMargin"></div>
-			<div class="row" id="entryForm">
+			<div class="row" id="entryFormDiv">
 				<div id="formBox" class="small-10 medium-8 large-8 small-centered columns">
-					<form id="loginForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/store">
+					<form id="entryForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/store" onsubmit="postData(); return false;">
 						<fieldset class="basicForm formFieldset radius">
 							<legend>Store a note</legend>
 							% if (my $errorMsg = stash 'errorMsg') {

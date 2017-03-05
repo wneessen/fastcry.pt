@@ -2,7 +2,7 @@
 conf/FastCryptSecret.conf
 
 ### Vim ###
-*/.*.swp
+**/.*.swp
 .swp
 
 ### macOS ###
