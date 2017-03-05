@@ -89,8 +89,12 @@
 		@include radius;
 	}
 }
+#noteField {
+	height: 50%;
+}
 textarea#entryBox {
-	height: 500px;
+	height: rem-calc(320);
+	display: block;
 	font-family: monospace;
 }
 .successModal label {
@@ -113,7 +117,7 @@ textarea#entryBox {
 	text-transform: none;
 }
 textarea#decBox {
-	height: 400px;
+	height: rem-calc(250);
 	font-family: monospace;
 	background: #FFFFFF;
 	padding: 0 0.1875rem;

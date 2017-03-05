@@ -108,7 +108,7 @@ function decData() {
 
 		if (responseObj.statuscode === 200) {
 			decryptPass.value = ''
-			styleSheet.addRule('.sweet-alert', 'width: 70%; left: 30%;');
+			styleSheet.addRule('.sweet-alert', 'width: 70%; left: 50%; position: fixed; margin-left: -35%');
 			swal({
 				title:		'Decryption done!',
 				text:		successDec(responseObj.data),
