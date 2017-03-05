@@ -36,6 +36,7 @@ sub register {
 	$app->helper(genPass	=> \&_genPass);
 	$app->helper(genRandObj	=> \&_genRandObj);
 	$app->helper(encData	=> \&_encData);
+	$app->helper(decData	=> \&_decData);
 	$app->helper(shaHash	=> \&_shaHash)
 }
 # }}}
@@ -92,7 +93,7 @@ sub _genRandObj {
 
 ## Encrypt given data // _encData() {{{
 ##		Requires:	data, password
-##		Returns:	base64 encoded encrypted data
+##		Returns:	encrypted data
 sub _encData {
 	my $self		= shift;
 	my $plainText	= shift;
@@ -109,6 +110,28 @@ sub _encData {
 	undef $passHash;
 
 	return $cipherText;
+}
+# }}}
+
+## Decrypt given data // _decData() {{{
+##		Requires:	data, password
+##		Returns:	decrypted data
+sub _decData {
+	my $self		= shift;
+	my $cipherText	= shift;
+	my $passWord	= shift;
+
+	## Hash the password
+	my $passHash = $self->shaHash($passWord, 256);
+
+	## Encrypt the data
+	my $cryptObj = Crypt::CBC->new(-key => $passHash, -cipher => 'Rijndael', -salt => 1);
+	my $plainText = $cryptObj->decrypt($cipherText);
+	undef $cipherText;
+	undef $passWord;
+	undef $passHash;
+
+	return $plainText;
 }
 # }}}
 

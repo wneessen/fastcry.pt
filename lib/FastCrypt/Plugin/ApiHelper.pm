@@ -14,8 +14,10 @@ sub register {
 	my ($self, $app, $conf) = @_;
 	
 	## Initialize the helper
-	$app->helper(jsonError	=> \&_jsonError);
-	$app->helper(createDir	=> \&_createDir);
+	$app->helper(jsonError		=> \&_jsonError);
+	$app->helper(createDir		=> \&_createDir);
+	$app->helper(entryExists	=> \&_entryExists);
+	$app->helper(validatePass	=> \&_validatePass);
 }
 # }}}
 
@@ -49,7 +51,7 @@ sub _jsonError {
 
 	return $statusCode;
 }
-#}
+# }}}
 
 ## Create an directory for the uploaded data // _createDir() {{{
 ##		Requires:	uuid
@@ -97,6 +99,68 @@ sub _createDir {
 	## We should never reach this point
 	return undef;
 }
-#}
+# }}}
+
+## Check if an entry exists in the filesystem // _entryExists() {{{
+##		Requires:	uuid
+##		Returns:	fullPath or undef
+sub _entryExists {
+	my $self = shift;
+	my $uuid = shift;
+	my $root = $ENV{'PWD'} . '/' . $self->config->{filePath};
+	
+	if (!defined($uuid)) {
+		croak('Missing parameter for entryExists()');
+	}
+
+	my @splitUuid = split(/-/, $uuid, 5);
+	my $fullPath = $root . '/' . join('/', @splitUuid);
+	return undef if (!-d $fullPath);
+	return undef if (!-e $fullPath . '/data');
+	return undef if (!-f $fullPath . '/data');
+	return undef if (!-e $fullPath . '/meta');
+	return undef if (!-f $fullPath . '/meta');
+	return $fullPath;
+}
+# }}}
+
+## Check if the provided password will decrypt correctly // _validatePass() {{{
+##		Requires:	uuid, password
+##		Returns:	1 or undef
+sub _validatePass {
+	my $self = shift;
+	my $uuid = shift;
+	my $pass = shift;
+	my $root = $ENV{'PWD'} . '/' . $self->config->{filePath};
+	my ($data);
+	
+	if (!defined($uuid) || !defined($pass)) {
+		croak('Missing parameter for entryExists()');
+	}
+
+	my @splitUuid = split(/-/, $uuid, 5);
+	my $fullPath = $root . '/' . join('/', @splitUuid);
+	open(METAFILE, $fullPath . '/meta') or do {
+		$self->app->log->error('Unable to read meta file: ' . $!);
+		return undef;
+	};
+	while(my $lenght = sysread(METAFILE, my $buffer, 1024)) {
+		$data .= $buffer;
+	}
+	close(METAFILE);
+
+	## Decrypt the data and validate
+	my $decData = $self->decData($data, $pass);
+	if ($decData ne $pass) {
+		return undef;
+	}
+	else { 
+		return 1;
+	}
+
+	## This point should never be reached
+	return undef;
+}
+# }}}
 
 1;

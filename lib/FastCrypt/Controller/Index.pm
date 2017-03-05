@@ -5,10 +5,28 @@
 package FastCrypt::Controller::Index;
 use Mojo::Base 'Mojolicious::Controller';
 
-## Default index page // showForm() {{{
+## Start page - show encryption form // showForm() {{{
 sub showForm {
 	my $self = shift;
 	my $defaultWrapper = 'wrapper/indexShowForm';
+
+	## Set the authorization cookie for the API access
+	$self->session(apiAccess => 1);
+
+	return $self->render(status => 200, template => $defaultWrapper);
+}
+# }}}
+
+## Present decryption form // showDecrypt() {{{
+sub showDecrypt {
+	my $self = shift;
+	my $defaultWrapper = 'wrapper/indexShowDecrypt';
+	my $uuid = $self->stash('uuid');
+
+	## First make sure the entry exists
+	if (!$self->entryExists($uuid)) {
+		return $self->render(status => 404, text => 'Entry not found');
+	}
 
 	## Set the authorization cookie for the API access
 	$self->session(apiAccess => 1);

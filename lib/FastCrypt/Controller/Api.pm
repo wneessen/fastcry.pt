@@ -44,7 +44,7 @@ sub storeEntry {
 	my $self		= shift;
 	my $validateObj	= $self->validation;
 	my $entryData	= $self->param('fastcrypt_entry');
-	my $encPass		= $self->param('fastcrypt_pass');
+	my $encPass		= $self->param('fastcrypt_pass') || undef;
 	my $csrfToken	= $self->param('csrf_token');
 	my ($selfProvided);
 
@@ -92,21 +92,34 @@ sub storeEntry {
 		return undef;
 	}
 
-	## Let open the file first
+	## Let open the files first
 	open (ENCFILE, '>', $filePath . '/data') or do {
 		$self->app->log->error('Unable to open file for writing: ' . $1);
 		$self->jsonError('An unexpected error occured.', 500);
 		return undef;
 	};
+	open (METAFILE, '>', $filePath . '/meta') or do {
+		$self->app->log->error('Unable to open meta file for writing: ' . $1);
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	};
 
 	## Encrypt the data and store it
+	my $encPassData = $self->encData($encPass, $encPass);
 	my $encData = $self->encData($entryData, $encPass);
+	if (!defined($encPassData)) {
+		$self->app->log->error('Encryption of meta data returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
 	if (!defined($encData)) {
 		$self->app->log->error('Encryption returned no data');
 		$self->jsonError('An unexpected error occured.', 500);
 		return undef;
 	}
+	syswrite(METAFILE, $encPassData);
 	syswrite(ENCFILE, $encData);
+	close(METAFILE);
 	close(ENCFILE);
 
 	## Free some memory
@@ -126,6 +139,71 @@ sub storeEntry {
 	);
 }
 # }}}
+
+## Decrypt the data // decryptEntry() {{{
+sub decryptEntry {
+	my $self		= shift;
+	my $validateObj	= $self->validation;
+	my $decPass		= $self->param('fastcrypt_pass') || undef;
+	my $uuid		= $self->param('fastcrypt_id') || undef;
+	my $csrfToken	= $self->param('csrf_token');
+
+	## We need at least a little bit of data
+	if (!defined($decPass)) {
+		$self->jsonError('No password submitted', 400);
+		return undef;
+	}
+	
+	## The UUID is mandatory
+	if (!defined($uuid)) {
+		$self->jsonError('Fastcrypt ID not given', 400);
+		return undef;
+	}
+
+	## Check for CSFR Token
+	if ($validateObj->csrf_protect->has_error($csrfToken)) {
+		$self->app->log->error('Bad CSFR token');
+		$self->jsonError('Bad CSFR token', 403);
+		return undef;
+	}
+
+	## Validate the password
+	if (!$self->validatePass($uuid, $decPass)) {
+		$self->jsonError('Decryption failed', 500);
+		return undef;
+	}
+
+	## Decrypt the data
+	my $data;
+	my $filePath = $self->entryExists($uuid);
+	open (ENCFILE, $filePath . '/data') or do {
+		$self->app->log->error('Unable to open file for writing: ' . $1);
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	};
+	while(my $lenght = sysread(ENCFILE, my $buffer, 1024)) {
+		$data .= $buffer;
+	}
+	close(ENCFILE);
+	my $decData = $self->decData($data, $decPass);
+	if (!defined($decData)) {
+		$self->app->log->error('Decryption returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
+
+	## Return the decrypted data
+	return $self->render(
+		status	=> 200,
+		json	=> {
+			status		=> 'ok',
+			statuscode	=> 200,
+			data		=> $decData,
+		},
+	);
+}
+# }}}
+	
 
 1;
 # vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

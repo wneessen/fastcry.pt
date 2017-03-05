@@ -6,8 +6,10 @@
 function postData() {
 	var entryForm	= document.getElementById('entryForm');
 	var entryBox	= document.getElementById('entryBox');
+	var entryPass	= document.getElementById('entryPass');
 	if (
 		(typeof entryBox === 'undefined' || entryBox === null) ||
+		(typeof entryPass === 'undefined' || entryPass === null) ||
 		(typeof entryForm === 'undefined' || entryForm === null)
 	) {
 		console.log('An error occured. "entryForm" or "entryBox" not found');
@@ -38,6 +40,7 @@ function postData() {
 
 		if (responseObj.statuscode === 200) {
 			entryBox.value = '';
+			entryPass.value = '';
 			swal({
 				title:		'All set!',
 				text:		successData(responseObj.url, responseObj.password),
@@ -58,7 +61,6 @@ function postData() {
 			return false;
 		}
 	}, false);
-	console.log(entryForm);
 	xhr.open(entryForm.method, entryForm.action, true);
 	xhr.send(new FormData(entryForm));
 }
