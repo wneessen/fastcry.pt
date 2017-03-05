@@ -1,12 +1,9 @@
 		%== devHtmlComment('Begin Foundation JavaScript includes');
-		%= javascript('/foundation/js/vendor/jquery.js?' . app->config->{version})
-		%= javascript('/foundation/js/foundation/foundation.js?' . app->config->{version})
-		%= javascript('/foundation/js/foundation/foundation.alert.js?' . app->config->{version})
-		%= javascript('/foundation/js/foundation/foundation.reveal.js?' . app->config->{version})
+		%= javascript('/foundation/js/vendor/jquery.js')
+		%= javascript('/foundation/js/foundation/foundation.js')
 		%= javascript('/foundation/js/foundation/foundation.topbar.js?' . app->config->{version})
-		%= javascript('/foundation/js/foundation/foundation.tooltip.js?' . app->config->{version})
+		%= javascript('/js/sweetalert.min.js')
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
-		%= javascript('/js/sweetalert.min.js?' . app->config->{version})
 		%= javascript begin
 			$(document).foundation();
 		% end
