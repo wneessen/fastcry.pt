@@ -69,7 +69,7 @@ sub storeEntry {
 	}
 	
 	## Generate a password (if none is given)
-	if (!defined($encPass) && !defined($noPass)) {
+	if (!defined($encPass)) {
 		$encPass = $self->genPass;
 		undef $selfProvided;
 	}
