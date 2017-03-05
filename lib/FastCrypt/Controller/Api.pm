@@ -14,8 +14,7 @@ use Data::Dumper;
 ##		to access the API automagically
 sub checkApiAccess {
 	my $self = shift;
-	#my $accessCheck = $self->session->{apiAccess} || 0;
-	my $accessCheck = $self->session->{apiAccess} || 1;
+	my $accessCheck = $self->session->{apiAccess} || 0;
 
 	if(!defined($accessCheck) or $accessCheck != 1) {
 		$self->jsonError('Access to API not granted', 403);
