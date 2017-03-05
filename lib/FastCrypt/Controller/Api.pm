@@ -42,9 +42,11 @@ sub testResponse {
 ## Store the data // storeEntry() {{{
 sub storeEntry {
 	my $self		= shift;
+	my $validateObj	= $self->validation;
 	my $entryData	= $self->param('fastcrypt_entry');
 	my $encPass		= $self->param('fastcrypt_pass');
-	my $noPass		= $self->param('fastcrypt_nopass');
+	my $csrfToken	= $self->param('csrf_token');
+	my ($selfProvided);
 
 	## We need at least a little bit of data
 	if (!defined($entryData)) {
@@ -54,13 +56,25 @@ sub storeEntry {
 	
 	## We support a maximum length
 	if (length($entryData) > $self->config->{maxLength}) {
+		$self->app->log->error('Request exceeds upload limit.');
 		$self->jsonError('Requested data exceeds upload limit', 400);
+		return undef;
+	}
+
+	## Check for CSFR Token
+	if ($validateObj->csrf_protect->has_error($csrfToken)) {
+		$self->app->log->error('Bad CSFR token');
+		$self->jsonError('Bad CSFR token', 403);
 		return undef;
 	}
 	
 	## Generate a password (if none is given)
 	if (!defined($encPass) && !defined($noPass)) {
 		$encPass = $self->genPass;
+		undef $selfProvided;
+	}
+	else {
+		$selfProvided = 1;
 	}
 
 	## Let's create a directory for the upload
@@ -73,7 +87,7 @@ sub storeEntry {
 
 	## Make sure no datafile is present
 	if (-e $filePath . '/data') {
-		$self->log->app->error('Datafile "' . $filePath . '/data' . '" is already present. Aborting.');
+		$self->app->log->error('Datafile "' . $filePath . '/data' . '" is already present. Aborting.');
 		$self->jsonError('An unexpected error occored.', 500);
 		return undef;
 	}
@@ -95,8 +109,12 @@ sub storeEntry {
 	syswrite(ENCFILE, $encData);
 	close(ENCFILE);
 
+	## Free some memory
+	undef $encData;
+	undef $entryData;
+
 	## We are good so far
-	$self->session(encPass => $encPass);
+	if (defined($selfProvided) && $selfProvided == 1) { $encPass = '** SELFPROVIDED **' }
 	return $self->render(
 		status	=> 200,
 		json	=> {

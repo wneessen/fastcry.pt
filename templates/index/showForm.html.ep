@@ -5,24 +5,21 @@
 					<form id="entryForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/store" onsubmit="postData(); return false;">
 						<fieldset class="basicForm formFieldset radius">
 							<legend>Store a note</legend>
-							% if (my $errorMsg = stash 'errorMsg') {
-							<div id="errorMessage" data-alert class="alert-box alert radius" aria-live="assertive" role="dialogalert">
-								<span>
-								% if (defined($errorMsg)) {
-									<%= $errorMsg %>
-								% } else {
-									%= 'Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktiere den Support'
-								% }
-								</span>
-							</div>
-							% }
 							<div id="noteField">
 								<label>Tell me what to store
 									%= text_area('fastcrypt_entry', id => 'entryBox', class => 'radius', placeholder => 'Put your message here', cols => 40);
 								</label>
 							</div>
+							<div id="passField">
+								<label>I will choose me own password
+									%= input_tag('fastcrypt_pass', placeholder => 'Enter your own encryption password', class => 'radius', type => 'password');
+								</label>
+							</div>
 							%= csrf_field
 							<button class="small radius" type="submit">Store</button>
+							<div id="infoField">
+								Your entry will be automatically deleted after 30 days
+							</div>
 						</fieldset>
 					</form>
 				</div>

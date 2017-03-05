@@ -104,6 +104,9 @@ sub _encData {
 	## Encrypt the data
 	my $cryptObj = Crypt::CBC->new(-key => $passHash, -cipher => 'Rijndael', -salt => 1);
 	my $cipherText = $cryptObj->encrypt($plainText);
+	undef $plainText;
+	undef $passWord;
+	undef $passHash;
 
 	return $cipherText;
 }

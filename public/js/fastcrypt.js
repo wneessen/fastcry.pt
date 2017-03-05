@@ -37,6 +37,7 @@ function postData() {
 		var responseObj = JSON.parse(xhr.responseText);
 
 		if (responseObj.statuscode === 200) {
+			entryBox.value = '';
 			swal({
 				title:		'All set!',
 				text:		successData(responseObj.url, responseObj.password),
@@ -47,7 +48,15 @@ function postData() {
 				closeOnConfirm:		true,
 			});
 		}
-		console.log(responseObj);
+		else {
+			swal({
+				title:	'Oops!',
+				text:	'We are very sorry, but we couldn\'t process your request.',
+				type:	'error',
+				confirmButtonText: 'That\'s cool. I\'ll try again later!',
+			});
+			return false;
+		}
 	}, false);
 	console.log(entryForm);
 	xhr.open(entryForm.method, entryForm.action, true);
@@ -59,8 +68,8 @@ function postData() {
 function successData(url, pass) {
 	var hostName	 = document.createTextNode(window.location.hostname).data;
 	var response	 = 'Your entry has been successfully encrypted and stored.<span class="successModal" style="margin-top: 15px; display: block;">';
-	response		+= '<label>Decryption URL:<input style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" type="text" name="url" value="https://' + hostName + url + '" /></label><br />';
-	response		+= '<label>Password:<input style="display: block" type="text" name="pass" value="' + pass + '" /></label>';
+	response		+= '<label>Decryption URL:<input onclick="select()" style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" type="text" name="url" value="https://' + hostName + url + '" /></label><br />';
+	response		+= '<label>Password:<input onclick="select()" style="display: block" type="text" name="pass" value="' + pass + '" /></label>';
 	response		+= '</span>';
 
 	return response;

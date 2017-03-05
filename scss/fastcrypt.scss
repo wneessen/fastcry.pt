@@ -78,6 +78,11 @@
 .basicForm legend {
 	background:	none;
 	background-color: none;
+	font-size: rem-calc(22);
+}
+.basicForm label {
+	font-size: rem-calc(16);
+	font-weight: bold;
 }
 .formFieldset {
 	&.radius {
@@ -95,5 +100,14 @@ textarea#entryBox {
 	padding: 0 0.1875rem;
 	margin: 0;
 	margin-left: -0.1875rem;
+}
+.sweet-alert fieldset {
+	display: none;
+}
+#infoField {
+	font-size: rem-calc(10);
+	font-weight: lighter;
+	text-align: center;
+	color: $red;
 }
 /* Lightbox specific definitions end here */
