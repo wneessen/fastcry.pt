@@ -108,7 +108,7 @@ function decData() {
 
 		if (responseObj.statuscode === 200) {
 			decryptPass.value = ''
-			styleSheet.addRule('.sweet-alert', 'width: 70%; left: 50%; position: fixed; margin-left: -35%');
+			styleSheet.insertRule('.sweet-alert { width: 70%; left: 50%; position: fixed; margin-left: -35%; }', 122);
 			swal({
 				title:		'Decryption done!',
 				text:		successDec(responseObj.data),
@@ -120,7 +120,7 @@ function decData() {
 			});
 		}
 		else {
-			styleSheet.addRule('.sweet-alert', 'width: 478px; left: 50%;');
+			styleSheet.insertRule('.sweet-alert { width: 40%; left: 50%; position: fixed; margin-left: -20%; }', 123);
 			swal({
 				title:	'Oops!',
 				text:	'We are very sorry, but we couldn\'t process your request.',
