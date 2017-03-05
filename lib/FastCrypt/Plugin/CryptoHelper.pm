@@ -5,6 +5,8 @@
 package FastCrypt::Plugin::CryptoHelper;
 use Mojo::Base 'Mojolicious::Plugin';
 use Carp;
+use Encode;
+use utf8;
 use Data::Dumper;
 use Bytes::Random::Secure;
 use Crypt::CBC;
@@ -102,6 +104,11 @@ sub _encData {
 	## Hash the password
 	my $passHash = $self->shaHash($passWord, 256);
 
+	## Check for UTF8 data
+	if (utf8::is_utf8($plainText)) {
+		$plainText = Encode::encode('UTF-8', $plainText);
+	}
+
 	## Encrypt the data
 	my $cryptObj = Crypt::CBC->new(-key => $passHash, -cipher => 'Rijndael', -salt => 1);
 	my $cipherText = $cryptObj->encrypt($plainText);
@@ -127,9 +134,11 @@ sub _decData {
 	## Encrypt the data
 	my $cryptObj = Crypt::CBC->new(-key => $passHash, -cipher => 'Rijndael', -salt => 1);
 	my $plainText = $cryptObj->decrypt($cipherText);
+	$plainText = Encode::decode('UTF-8', $plainText);
 	undef $cipherText;
 	undef $passWord;
 	undef $passHash;
+	
 
 	return $plainText;
 }

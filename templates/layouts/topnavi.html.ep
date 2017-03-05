@@ -4,7 +4,7 @@
 			<ul class="title-area">
 				<li class="name productName">
 					<h1>
-						<a href="<%= url_for('index') %>">
+						<a href="<%= url_for('defaultForm') %>">
 							<%= app->config->{productName} %>
 							<span>Easyily share a note - quick, secure, anonymous</span>
 						</a>
