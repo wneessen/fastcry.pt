@@ -6,7 +6,7 @@
 						<fieldset class="basicForm formFieldset radius">
 							<legend>Store a note</legend>
 							<div id="noteField">
-								%= text_area('fastcrypt_entry', id => 'entryBox', class => 'radius', placeholder => 'Put your message here', cols => 40);
+								%= text_area('fastcrypt_entry', autofocus => undef, id => 'entryBox', class => 'radius', placeholder => 'Put your message here', cols => 40);
 							</div>
 							<div id="passField">
 								<label>I will choose me own password
