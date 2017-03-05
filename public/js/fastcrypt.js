@@ -78,4 +78,68 @@ function successData(url, pass) {
 }
 // }}}
 
+// Decrypt the data via the API // decData() {{{
+function decData() {
+	var decryptForm = document.getElementById('decryptForm');
+	var decryptPass	= document.getElementById('decryptPass');
+	if (
+		(typeof decryptPass === 'undefined' || decryptPass === null) ||
+		(typeof decryptForm === 'undefined' || decryptForm === null)
+	) {
+		console.log('An error occured. "decryptForm" or "decryptPass" not found');
+		swal({
+			title:	'Holy smokes!',
+			text:	'Something bad happend. We can\'t procceed any further. I am very sorry.',
+			type:	'error',
+			confirmButtonText: 'That\'s ok, I\'ll try again later',
+		});
+		return false;
+	}
+
+	// Let's call the API
+	var styleSheet = document.styleSheets[0];
+	var xhr = new XMLHttpRequest();
+	xhr.addEventListener('load', function(event) {
+		var responseObj = JSON.parse(xhr.responseText);
+
+		if (responseObj.statuscode === 200) {
+			decryptPass.value = ''
+			styleSheet.addRule('.sweet-alert', 'width: 70%; left: 30%;');
+			swal({
+				title:		'Decryption done!',
+				text:		successDec(responseObj.data),
+				html:		true,
+				type:		'success',
+
+				showCancelButton:	false,
+				closeOnConfirm:		true,
+			});
+		}
+		else {
+			styleSheet.addRule('.sweet-alert', 'width: 478px; left: 50%;');
+			swal({
+				title:	'Oops!',
+				text:	'We are very sorry, but we couldn\'t process your request.',
+				type:	'error',
+				confirmButtonText: 'That\'s cool. I\'ll try again later!',
+			});
+			return false;
+		}
+	}, false);
+	xhr.open(decryptForm.method, decryptForm.action, true);
+	xhr.send(new FormData(decryptForm));
+}
+// }}}
+
+// Prepare the output for the decryption alert modal // successDec() {{{
+function successDec(data) {
+	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
+	response		+= '<label>Your note:';
+	response		+= '<textarea id="decBox" onclick="select()" style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" name="yourdata">' + data + '</textarea>';
+	response		+= '</label></span>';
+
+	return response;
+}
+// }}}
+
 // vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

@@ -2,13 +2,12 @@
 			<div class="topMargin"></div>
 			<div class="row" id="decryptFormDiv">
 				<div id="formBox" class="small-10 medium-5 large-5 small-centered columns">
-					<!-- <form id="decryptForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/decrypt" onsubmit="postData(); return false;"> //-->
-						<form id="decryptForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/decrypt">
+					<form id="decryptForm" method="post" enctype="multipart/form-data" data-abide="" action="/api/v1/decrypt" onsubmit="decData(); return false;">
 						<fieldset class="basicForm formFieldset radius">
 							<legend>Decrypt a note</legend>
 							<div id="passField">
 								<label>Decryption password
-									%= input_tag('fastcrypt_pass', autofocus => undef, id => 'entryPass', placeholder => 'Enter your decryption password', class => 'radius', type => 'password');
+									%= input_tag('fastcrypt_pass', autofocus => undef, id => 'decryptPass', placeholder => 'Enter your decryption password', class => 'radius', type => 'password');
 								</label>
 							</div>
 							%= hidden_field fastcrypt_id => $c->stash('uuid');

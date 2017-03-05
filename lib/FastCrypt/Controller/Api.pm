@@ -5,7 +5,7 @@
 package FastCrypt::Controller::Api;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::JSON qw/decode_json/;
-use Mojo::Upload;
+use Mojo::Util qw(xml_escape);
 use UUID qw/uuid/;
 use Data::Dumper;
 
@@ -198,7 +198,7 @@ sub decryptEntry {
 		json	=> {
 			status		=> 'ok',
 			statuscode	=> 200,
-			data		=> $decData,
+			data		=> xml_escape($decData),
 		},
 	);
 }
