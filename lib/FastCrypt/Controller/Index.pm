@@ -47,10 +47,10 @@ sub showAbout {
 }
 # }}}
 
-## Impress page // showImpress() {{{
-sub showImpress {
+## Imprint page // showImprint() {{{
+sub showImprint {
 	my $self = shift;
-	my $defaultWrapper = 'wrapper/indexShowImpress';
+	my $defaultWrapper = 'wrapper/indexShowImprint';
 
 	## Set the authorization cookie for the API access
 	$self->session(apiAccess => 1);

@@ -15,10 +15,9 @@
 			<section class="top-bar-section">
 				<ul class="right" id="featureSelector">
 					<li class="has-dropdown">
-						<a href="#"><i class="fa fa-home"></i></a>
+						<a href="<%= url_for('defaultForm') %>"><i class="fa fa-home"></i></a>
 						<ul class="dropdown">
 							<li><a href="<%= url_for('aboutPage') %>">What is this?</a></li>
-							<li><a href="<%= url_for('impressPage') %>">Impress</a></li>
 						</ul>
 					</li>
 				</ul>

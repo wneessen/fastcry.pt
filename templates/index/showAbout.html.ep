@@ -1,0 +1,70 @@
+			<%== devHtmlComment('begin entry form section') %>
+			<div class="topMargin"></div>
+			<div class="row" id="entryFormDiv">
+				<div id="aboutBox" class="small-10 medium-10 large-10 small-centered columns">
+					<fieldset class="basicForm formFieldset radius">
+						<div>
+							<h4>What is this all about?</h4>
+							The idea for <a href="/">fastcry.pt</a> arose when
+							I was in need for a quick and easy solution to
+							share data with a 3rd party. The problem was, I
+							only has an email address and the phone number
+							(with WhatsApp contact) of the person I wanted to
+							send the data. I ended up sending an encrypted ZIP
+							file via mail and provide the password to him via
+							WhatsApp. This worked but wasn't suffient to me. So
+							I sat down a weekend and built this service. It is
+							meant to be quick, easy to use, anonymous and
+							secure - which I think I accomplished.<br />
+							<br /><h4>Technical details</h4>
+							For the tech nerds of you, here are some technical
+							details of how the service works. The service is
+							written in <a href="https://www.perl.org/">Perl</a>
+							and is driven by the fabulous <a
+								href="http://mojolicious.org">mojolicious</a>
+							framework. The files are stored <a
+								href="https://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES256-CBC</a>
+							(Salted) at rest on the hard disc. No user (meta)
+							data is stored with the file - no logs*, no IPs, no
+							nothing. If you stored a note and forgot the
+							password - well, that's bad luck. As this is meant
+							to quickly share a note and not to store them for
+							eternity, there is a cronjob running, which will
+							delete any note, which is older than 30 days.<br />
+							<small>* = At least not on my side. The service is
+								<a
+									href="https://www.cloudflare.com/">Cloudflare</a>-powered
+								and I guess they are logging at least some IPs
+								and stuff. If's that's a concern to you, you
+								probably shouldn't use this service</small><br />
+							<br /><h4>Shout outs</h4>
+							As I am a lazy person, I used some handy 3rd party
+							scripts/technologies for this service. Special
+							thanks to all those developers helping others by
+							publishing their stuff.<br /><br />
+							<ul>
+								<li><a href="https://www.perl.org/">Perl</a></li>
+								<li><a href="http://mojolicious.org">mojolicious</a></li>
+								<li><a href="http://foundation.zurb.com/">Zurb Foundation</a></li>
+								<li><a href="http://www.vim.org/">Vim</a></li>
+								<li><a href="http://fontawesome.io/">Font Awesome</a></li>
+								<li><a href="https://t4t5.github.io/sweetalert/">SweetAlert</a></li>
+								<li><a href="https://bitbucket.org/">BitBucket</a></li>
+								<li><a href="https://www.freebsd.org/">FreeBSD</a></li>
+							</ul>
+							And as I am happily benifiting from all these Open
+							Source products, I have decided to make the sources
+							of fastcry.pt also <a
+								href="https://bitbucket.org/wneessen/fastcry.pt/">public</a>.
+							<br />
+							<br /><h4>Contact</h4>
+							If you have any questions, feel free to contact me: <br /><br />
+							<strong>Good old email</strong><br />
+							<p>Address: <a href="mailto:winni@insecure.so">winni@insecure.so</a> (<a href="http://www.gnupg.org/">GnuPG</a> highly requested!)<br />GPG-Key ID: <a href="http://insecure.so/wp-content/uploads/2013/09/winfriedneessen.net_.asc">0xa1c6865e</a>)<br />GPG Fingerprint: 6E9E 3C6E 8A2E B99C 3AB3 D9DD 949E 0A1B A1C6 865E</p>
+							<strong>Instant messaging / Social media</strong>
+							<p>Jabber: <a href="xmpp:doomy@chat.pebcak.de">doomy@chat.pebcak.de<br /></a>OTR Fingerprint: E692A77F 0475CADF 503DCDCB 8D0F2C56 1C9D5E1D<br />Skype: <a href="skype:doomshammer">doomshammer</a><br />Twitter: <a href="https://www.twitter.com/wneessen">https://www.twitter.com/wneessen</a><br />
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<%== devHtmlComment('end entry form section') %>
