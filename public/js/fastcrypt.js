@@ -43,7 +43,7 @@ function postData() {
 			entryPass.value = '';
 			swal({
 				title:		'All set!',
-				text:		successData(responseObj.url, responseObj.password),
+				text:		successData(responseObj.absurl, responseObj.password),
 				html:		true,
 				type:		'success',
 
@@ -68,12 +68,11 @@ function postData() {
 
 // Prepare the output for the alert modal // successData() {{{
 function successData(url, pass) {
-	var hostName	 = document.createTextNode(window.location.hostname).data;
 	var response	 = 'Your entry has been successfully encrypted and stored.<span class="successModal" style="margin-top: 15px; display: block;">';
-	response		+= '<label>Decryption URL:<input onclick="select()" style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" type="text" name="url" value="https://' + hostName + url + '" /></label><br />';
+	response		+= '<label>Decryption URL:<input onclick="select()" style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" type="text" name="url" value="' + url + '" /></label><br />';
 	response		+= '<label>Password:<input onclick="select()" style="display: block" type="text" name="pass" value="' + pass + '" /></label>';
 	if (pass !== '** SELFPROVIDED **') {
-		response		+= '<br /><label>Decryption URL (including Password):<input onclick="select()" style="display: block" type="text" name="pass" value="https://' + hostName + url + '?fastcrypt_pass=' + encodeURIComponent(pass) + '" />';
+		response		+= '<br /><label>Decryption URL (including Password):<input onclick="select()" style="display: block" type="text" name="pass" value="' + url + '?fastcrypt_pass=' + encodeURIComponent(pass) + '" />';
 		response		+= '<small><strong>WARNING:</strong> Do not send this URL via unencrypted channels</small></label>'
 	}
 	response		+= '</span>';

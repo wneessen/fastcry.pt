@@ -134,6 +134,7 @@ sub storeEntry {
 			status		=> 'ok',
 			statuscode	=> 200,
 			url			=> $self->url_for('decryptForm', uuid => $uuid),
+			absurl		=> $self->url_for('decryptForm', uuid => $uuid)->to_abs,
 			password	=> $encPass,
 		},
 	);
