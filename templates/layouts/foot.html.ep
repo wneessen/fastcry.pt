@@ -5,7 +5,11 @@
 		%= javascript('/js/sweetalert.min.js')
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
 		%= javascript begin
-			$(document).foundation();
+		$(document).foundation();
+		$(document).ready(function() {
+			var noScript = document.getElementById('noscriptinfo');
+			noScript.style.display = 'none';
+		});
 		% end
 		%== devHtmlComment('End Foundation JavaScript includes');
 	</body>

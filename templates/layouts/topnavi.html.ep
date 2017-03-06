@@ -1,4 +1,4 @@
-		%== devHtmlComment('begin top navigation section');
+%== devHtmlComment('begin top navigation section');
 		<div class="ribbon"></div>
 		<nav class="top-bar" data-options="is_hover: true" data-topbar role="navigation">
 			<ul class="title-area">
@@ -25,3 +25,10 @@
 		</nav>
 		<div class="ribbon"></div>
 		%== devHtmlComment('end top navigation section');
+		<div class="row dashboard" id="noscriptinfo">
+			<div id="noscriptBox" class="small-10 medium-8 large-8 small-centered columns">
+				<div id="errorMessage" data-alert class="alert-box alert radius" tabindex="0" aria-live="assertive" role="dialogalert">
+					<span>fastcry.pt heavily utilized JavaScript. It looks like your browser does not support JavaScript. Therefore fastcry.pt will likely not work for you. We are sorry about that.</span>
+				</div>
+			</div>
+		</div>
