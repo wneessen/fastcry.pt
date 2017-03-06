@@ -31,8 +31,6 @@
 			top: 0px;
 		}
 		%= end
-}
-
 	</body>
 %== devHtmlComment(app->config->{productName} . ' v' . app->config->{version});
 </html>
