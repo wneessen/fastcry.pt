@@ -35,5 +35,29 @@ sub showDecrypt {
 }
 # }}}
 
+## About page // showAbout() {{{
+sub showAbout {
+	my $self = shift;
+	my $defaultWrapper = 'wrapper/indexShowAbout';
+
+	## Set the authorization cookie for the API access
+	$self->session(apiAccess => 1);
+
+	return $self->render(status => 200, template => $defaultWrapper);
+}
+# }}}
+
+## Impress page // showImpress() {{{
+sub showImpress {
+	my $self = shift;
+	my $defaultWrapper = 'wrapper/indexShowImpress';
+
+	## Set the authorization cookie for the API access
+	$self->session(apiAccess => 1);
+
+	return $self->render(status => 200, template => $defaultWrapper);
+}
+# }}}
+
 1;
 # vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

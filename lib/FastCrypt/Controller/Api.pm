@@ -25,15 +25,15 @@ sub checkApiAccess {
 }
 # }}}
 
-## A simple test response // testResponse() {{{
-sub testResponse {
+## A simple ping/pong method // ping() {{{
+sub ping {
 	my $self = shift;
 	return $self->render(
 		status	=> 200,
 		json	=> {
 			status		=> 'ok',
 			statuscode	=> 200,
-			test		=> 'Test succeeded',
+			ping		=> 'ping',
 		},
 	);
 }

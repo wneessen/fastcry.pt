@@ -31,12 +31,14 @@ sub startup {
 
 	## API routes
 	my $api = $r->under('/api/v1')->to('api#checkApiAccess');
-	$api->get('/test')->to('#testResponse');
+	$api->get('/ping')->to('#ping');
 	$api->post('/store')->to('#storeEntry')->name('apiStoreEntry');
 	$api->post('/decrypt')->to('#decryptEntry')->name('apiDecrytEntry');
 
     ## Web interface routes
     $r->get('/')->to('index#showForm')->name('defaultForm');
+    $r->get('/about')->to('index#showAbout')->name('aboutPage');
+    $r->get('/impress')->to('index#showImpress')->name('impressPage');
     $r->get('/d/:uuid' => [uuid => qr/[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+/])->to('index#showDecrypt')->name('decryptForm');
 }
 # }}}

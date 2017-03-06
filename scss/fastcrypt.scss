@@ -133,4 +133,14 @@ textarea#decBox {
 	text-align: center;
 	color: $red;
 }
+.fa {
+	font-size: rem-calc(20);
+	margin-top: 15px;
+}
+.top-bar-section li:not(.has-form) a:not(.button) {
+	line-height: 2rem;
+}
+.top-bar-section .dropdown li:not(.has-form):not(.active) > a:not(.button) {
+	line-height: 3rem;
+}
 /* Lightbox specific definitions end here */
