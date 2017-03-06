@@ -146,5 +146,7 @@ textarea#decBox {
 #noscriptinfo {
 	display: block;
 	margin-top: 10px;
+	top: -1000px;
+	position: relative;
 }
 /* Lightbox specific definitions end here */

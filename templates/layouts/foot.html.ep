@@ -1,3 +1,19 @@
+		%== devHtmlComment('Begin noscript box');
+		<div class="row dashboard" id="noscriptinfo">
+			<div id="noscriptBox" class="small-10 medium-8 large-8 small-centered columns">
+				<div id="errorMessage" data-alert class="alert-box alert radius">
+					<span>fastcry.pt heavily utilized JavaScript. It looks like your browser does not support JavaScript. Therefore fastcry.pt will likely not work for you. We are sorry about that.</span>
+				</div>
+			</div>
+		</div>
+		%== devHtmlComment('End noscript box');
+		%= javascript begin
+		document.addEventListener('DOMContentLoaded', function(event) {
+			//document.getElementById('noscriptinfo').style.top = -1000;
+			//document.getElementById('errorMessage').style.class = 'none';
+			document.getElementById('noscriptinfo').style.display = 'none';
+		});
+		% end
 		%== devHtmlComment('Begin Foundation JavaScript includes');
 		%= javascript('/foundation/js/vendor/jquery.js')
 		%= javascript('/foundation/js/foundation/foundation.js')
@@ -6,12 +22,17 @@
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
 		%= javascript begin
 		$(document).foundation();
-		$(document).ready(function() {
-			var noScript = document.getElementById('noscriptinfo');
-			noScript.style.display = 'none';
-		});
 		% end
 		%== devHtmlComment('End Foundation JavaScript includes');
+		%= stylesheet begin
+		#noscriptinfo {
+			display: block;
+			margin-top: 10px;
+			top: 0px;
+		}
+		%= end
+}
+
 	</body>
 %== devHtmlComment(app->config->{productName} . ' v' . app->config->{version});
 </html>
