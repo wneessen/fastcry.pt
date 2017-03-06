@@ -5,6 +5,7 @@
 		%= t meta => (name => 'viewport', content => 'width=device-width, initial-scale=1.0')
 		%= t title => app->config->{productName}
 		%= stylesheet('/css/sweetalert.css')
+		%= stylesheet('/css/dropzone.css')
 		%= stylesheet('/css/font-awesome.min.css')
 		%= stylesheet('//fonts.googleapis.com/css?family=Baumans|Comfortaa:300,400,700');
 		%= javascript('/foundation/js/vendor/modernizr.js')

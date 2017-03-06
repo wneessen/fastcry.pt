@@ -9,8 +9,6 @@
 		%== devHtmlComment('End noscript box');
 		%= javascript begin
 		document.addEventListener('DOMContentLoaded', function(event) {
-			//document.getElementById('noscriptinfo').style.top = -1000;
-			//document.getElementById('errorMessage').style.class = 'none';
 			document.getElementById('noscriptinfo').style.display = 'none';
 		});
 		% end
@@ -19,9 +17,17 @@
 		%= javascript('/foundation/js/foundation/foundation.js')
 		%= javascript('/foundation/js/foundation/foundation.topbar.js?' . app->config->{version})
 		%= javascript('/js/sweetalert.min.js')
+		%= javascript('/js/dropzone.js')
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
 		%= javascript begin
 		$(document).foundation();
+		% end
+		%= javascript begin
+		Dropzone.options.upload = {
+			paramName: "file", // The name that will be used to transfer the file
+			maxFilesize: 20, // MB
+			autoProcessQueue: false,
+		};
 		% end
 		%== devHtmlComment('End Foundation JavaScript includes');
 		%= stylesheet begin
