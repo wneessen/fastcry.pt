@@ -2,7 +2,7 @@
 			<div class="topMargin"></div>
 			<div class="row" id="entryFormDiv">
 				<div id="formBox" class="small-10 medium-8 large-8 small-centered columns">
-					<form id="entryForm" method="post" enctype="multipart/form-data" action="/api/v1/store" onsubmit="postData(); return false;" ondragover = "this.style.display='none'; document.getElementById('upload').style.display='block';" >
+					<form id="entryForm" method="post" enctype="multipart/form-data" onsubmit="postData(); return false;" ondragover = "showDropzone(this); return false;" >
 						<fieldset class="basicForm formFieldset radius">
 							<legend>Store a note</legend>
 							<div id="noteField">
@@ -13,17 +13,11 @@
 									%= input_tag('fastcrypt_pass', id => 'entryPass', placeholder => 'Enter your own encryption password', class => 'radius', type => 'password');
 								</label>
 							</div>
-							%= csrf_field
 							<button class="small radius" type="submit">Store</button>
 							<div id="infoField">
 								Your note will be automatically deleted after 30 days
 							</div>
 						</fieldset>
-					</form>
-					<form action="/file-upload" id="upload" class="dropzone" style="display:none">
-						<div class="fallback">
-							<input name="file" type="file" multiple />
-						</div>
 					</form>
 				</div>
 			</div>

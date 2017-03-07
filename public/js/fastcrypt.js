@@ -33,7 +33,7 @@ function postData() {
 	}
 	var entryData = entryBox.value;
 
-	// Let's call the API
+	// Lets call the API
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('load', function(event) {
 		var responseObj = JSON.parse(xhr.responseText);
@@ -61,7 +61,7 @@ function postData() {
 			return false;
 		}
 	}, false);
-	xhr.open(entryForm.method, entryForm.action, true);
+	xhr.open(entryForm.method, '/api/v1/store', true);
 	xhr.send(new FormData(entryForm));
 }
 // }}}
