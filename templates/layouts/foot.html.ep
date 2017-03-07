@@ -20,8 +20,10 @@
 		%= javascript begin
 		window.fd = {logging: false,};
 		% end
+		% if($c->url_for() eq '/') {
 		%= javascript('/js/filedrop-min.js')
 		%= javascript('/js/fc-filedrop.js')
+		% }
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
 		%= javascript begin
 		// Foundation initalization

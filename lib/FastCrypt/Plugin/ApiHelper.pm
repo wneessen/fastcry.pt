@@ -8,7 +8,7 @@ use Carp;
 use Data::Dumper;
 use File::Path qw/make_path/;
 use UUID qw/uuid/;
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 ## Register the plugin // register {{{
 sub register {
@@ -18,6 +18,8 @@ sub register {
 	$app->helper(jsonError		=> \&_jsonError);
 	$app->helper(getStoreFiles	=> \&_getStoreFiles);
 	$app->helper(createDir		=> \&_createDir);
+	$app->helper(encStoreData	=> \&_encStoreData);
+	$app->helper(getFileType	=> \&_getFileType);
 	$app->helper(entryExists	=> \&_entryExists);
 	$app->helper(validatePass	=> \&_validatePass);
 }
@@ -35,6 +37,8 @@ sub _jsonError {
 		400		=> 'bad request',
 		401		=> 'unauthorized',
 		403		=> 'forbidden',
+		406		=> 'not acceptable',
+		413		=> 'payload too large',
 		500		=> 'internal server error',
 	);
 	
@@ -134,6 +138,92 @@ sub _createDir {
 
 	## We should never reach this point
 	return undef;
+}
+# }}}
+
+## Encrypt and store the data // _encStoreData() {{{
+##		Requires:	data, password, filetype
+##		Returns:	uuid
+sub _encStoreData {
+	my $self = shift;
+	my $entryData	= shift;
+	my $encPass		= shift;
+	my $fileType	= shift;
+	
+	## Let's create a directory for the upload
+	my ($storeFile, $metaFile, $typeFile, $uuid) = $self->getStoreFiles;
+
+	## Encrypt the data and store it
+	my $encPassData = $self->encData($encPass, $encPass);
+	my $encData;
+	if ($fileType =~ /^image\//) {
+		$encData = $self->encData($entryData, $encPass, 1);
+	}
+	else {
+		$encData = $self->encData($entryData, $encPass);
+	}
+	my $encTypeData = $self->encData($fileType, $encPass);
+	if (!defined($encPassData)) {
+		$self->app->log->error('Encryption of meta data returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
+	if (!defined($encData)) {
+		$self->app->log->error('Encryption returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
+	if (!defined($encTypeData)) {
+		$self->app->log->error('Encryption of type data returned no data');
+		$self->jsonError('An unexpected error occured.', 500);
+		return undef;
+	}
+	syswrite($metaFile, $encPassData);
+	syswrite($storeFile, $encData);
+	syswrite($typeFile, $encTypeData);
+	close($storeFile);
+	close($metaFile);
+	close($typeFile);
+
+	## Free some memory
+	undef $encData;
+	undef $encPassData;
+	undef $encTypeData;
+	undef $entryData;
+
+	## Return the UUID
+	return $uuid;
+}
+# }}}
+
+## Get the filetype of the encrypted data // _getFileType() {{{
+##		Requires:	uuid, password
+##		Returns:	filetype or undef
+sub _getFileType {
+	my $self = shift;
+	my $uuid = shift;
+	my $pass = shift;
+	my $root = $ENV{'PWD'} . '/' . $self->config->{filePath};
+	my ($data);
+	
+	if (!defined($uuid) || !defined($pass)) {
+		croak('Missing parameter for entryExists()');
+	}
+
+	my @splitUuid = split(/-/, $uuid, 5);
+	my $fullPath = $root . '/' . join('/', @splitUuid);
+	open(TYPEFILE, $fullPath . '/type') or do {
+		$self->app->log->error('Unable to read type file: ' . $!);
+		return undef;
+	};
+	while(my $lenght = sysread(TYPEFILE, my $buffer, 1024)) {
+		$data .= $buffer;
+	}
+	close(TYPEFILE);
+
+	## Return the filetype
+	my $decData = $self->decData($data, $pass);
+	return $decData;
 }
 # }}}
 

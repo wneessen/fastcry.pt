@@ -99,7 +99,7 @@ function decData() {
 		return false;
 	}
 
-	// Let's call the API
+	// Lets call the API
 	var styleSheet = document.styleSheets[0];
 	var xhr = new XMLHttpRequest();
 	xhr.addEventListener('load', function(event) {
@@ -108,15 +108,31 @@ function decData() {
 		if (responseObj.statuscode === 200) {
 			decryptPass.value = ''
 			styleSheet.insertRule('.sweet-alert { width: 70%; left: 50%; position: fixed; margin-left: -35%; }', 122);
-			swal({
-				title:		'Decryption done!',
-				text:		successDec(responseObj.data),
-				html:		true,
-				type:		'success',
-
-				showCancelButton:	false,
-				closeOnConfirm:		true,
-			});
+			var imgPattern = /^image\//;
+			var matchImage = responseObj.filetype.match(imgPattern);
+			if (matchImage) {
+				swal({
+					title:		'Decryption done!',
+					text:		successDecImg(responseObj.data),
+					html:		true,
+					type:		'success',
+	
+					showCancelButton:	false,
+					closeOnConfirm:		true,
+				});
+				showImage(responseObj.data);
+			}
+			else {
+				swal({
+					title:		'Decryption done!',
+					text:		successDec(responseObj.data),
+					html:		true,
+					type:		'success',
+	
+					showCancelButton:	false,
+					closeOnConfirm:		true,
+				});
+			}
 		}
 		else {
 			styleSheet.insertRule('.sweet-alert { width: 40%; left: 50%; position: fixed; margin-left: -20%; }', 123);
@@ -144,5 +160,33 @@ function successDec(data) {
 	return response;
 }
 // }}}
+
+// Prepare the output for the decryption alert modal (with image) // successDecImg() {{{
+function successDecImg(data) {
+	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
+	response		+= '<label>Your image:<br />';
+	response		+= '<div id="imgDiv"><canvas id="decImg"></canvas></div>';
+	response		+= '</label></span>';
+
+	return response;
+}
+// }}}
+
+// Load an image and present it // loadImage() {{{
+function showImage(data) {
+	var decImg		= document.getElementById('decImg').getContext("2d");
+	var tempImage	= new Image();
+	tempImage.onload = function(e) {
+		var w = e.target.width;
+		var h = e.target.height;
+		decImg.canvas.width = w;
+		decImg.canvas.height = h;
+		decImg.drawImage(tempImage, 1, 1);
+	}
+	tempImage.src = data;
+	return true;
+}
+// }
+		
 
 // vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

@@ -100,13 +100,16 @@ sub _encData {
 	my $self		= shift;
 	my $plainText	= shift;
 	my $passWord	= shift;
+	my $noUTF8		= shift || undef;
 
 	## Hash the password
 	my $passHash = $self->shaHash($passWord, 256);
 
 	## Check for UTF8 data
-	if (utf8::is_utf8($plainText)) {
-		$plainText = Encode::encode('UTF-8', $plainText);
+	if (!defined($noUTF8)) {
+		if (utf8::is_utf8($plainText)) {
+			$plainText = Encode::encode('UTF-8', $plainText);
+		}
 	}
 
 	## Encrypt the data
@@ -122,11 +125,13 @@ sub _encData {
 
 ## Decrypt given data // _decData() {{{
 ##		Requires:	data, password
+##		Optional:	noUTF8
 ##		Returns:	decrypted data
 sub _decData {
 	my $self		= shift;
 	my $cipherText	= shift;
 	my $passWord	= shift;
+	my $noUTF8		= shift || undef;
 
 	## Hash the password
 	my $passHash = $self->shaHash($passWord, 256);
@@ -134,7 +139,9 @@ sub _decData {
 	## Encrypt the data
 	my $cryptObj = Crypt::CBC->new(-key => $passHash, -cipher => 'Rijndael', -salt => 1);
 	my $plainText = $cryptObj->decrypt($cipherText);
-	$plainText = Encode::decode('UTF-8', $plainText);
+	if (!defined($noUTF8)) {
+		$plainText = Encode::decode('UTF-8', $plainText);
+	}
 	undef $cipherText;
 	undef $passWord;
 	undef $passHash;

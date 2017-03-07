@@ -155,6 +155,10 @@ textarea#decBox {
 	top: -1000px;
 	position: relative;
 }
+#imgDiv {
+	height: rem-calc(400);
+	overflow: scroll;
+}
 /* Lightbox specific definitions end here */
 
 /* FileDrop sepcific stuff */

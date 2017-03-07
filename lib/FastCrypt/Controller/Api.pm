@@ -6,6 +6,8 @@ package FastCrypt::Controller::Api;
 use Mojo::Base 'Mojolicious::Controller';
 use Mojo::JSON qw/decode_json/;
 use Mojo::Util qw(xml_escape);
+use Encode;
+use MIME::Base64;
 use Data::Dumper;
 
 ## Check if client is allowed to access API // checkApiAccess() {{{
@@ -54,7 +56,7 @@ sub storeEntry {
 	## We support a maximum length
 	if (length($entryData) > $self->config->{maxLength}) {
 		$self->app->log->error('Request exceeds upload limit.');
-		$self->jsonError('Requested data exceeds upload limit', 400);
+		$self->jsonError('Requested data exceeds upload limit', 413);
 		return undef;
 	}
 
@@ -66,40 +68,11 @@ sub storeEntry {
 	else {
 		$selfProvided = 1;
 	}
-
-	## Let's create a directory for the upload
-	my ($storeFile, $metaFile, $typeFile, $uuid) = $self->getStoreFiles;
-
-	## Encrypt the data and store it
-	my $encPassData = $self->encData($encPass, $encPass);
-	my $encData = $self->encData($entryData, $encPass);
-	my $encTypeData = $self->encData('text', $encPass);
-	if (!defined($encPassData)) {
-		$self->app->log->error('Encryption of meta data returned no data');
-		$self->jsonError('An unexpected error occured.', 500);
-		return undef;
-	}
-	if (!defined($encData)) {
-		$self->app->log->error('Encryption returned no data');
-		$self->jsonError('An unexpected error occured.', 500);
-		return undef;
-	}
-	if (!defined($encTypeData)) {
-		$self->app->log->error('Encryption of type data returned no data');
-		$self->jsonError('An unexpected error occured.', 500);
-		return undef;
-	}
-	syswrite($metaFile, $encPassData);
-	syswrite($storeFile, $encData);
-	syswrite($typeFile, $encTypeData);
-	close($storeFile);
-	close($metaFile);
-	close($typeFile);
+	
+	## Encrypt and store the data
+	my $uuid = $self->encStoreData($entryData, $encPass, 'PLAIN');
 
 	## Free some memory
-	undef $encData;
-	undef $encPassData;
-	undef $encTypeData;
 	undef $entryData;
 
 	## We are good so far
@@ -154,7 +127,15 @@ sub decryptEntry {
 		$data .= $buffer;
 	}
 	close(ENCFILE);
-	my $decData = $self->decData($data, $decPass);
+	my $fileType = $self->getFileType($uuid, $decPass);
+	my $decData;
+	if ($fileType =~ /^image\//) {
+		$decData = $self->decData($data, $decPass, 1);
+		$decData = 'data:' . lc($fileType) . ';base64,' . MIME::Base64::encode_base64($decData, '');
+	}
+	else {
+		$decData = $self->decData($data, $decPass);
+	}
 	if (!defined($decData)) {
 		$self->app->log->error('Decryption returned no data');
 		$self->jsonError('An unexpected error occured.', 500);
@@ -167,6 +148,7 @@ sub decryptEntry {
 		json	=> {
 			status		=> 'ok',
 			statuscode	=> 200,
+			filetype	=> $fileType,
 			data		=> xml_escape($decData),
 		},
 	);
@@ -178,7 +160,8 @@ sub uploadEntry {
 	my $self = shift;
 	my $uploadData	= $self->req->body;
 	my $encPass		= $self->req->headers->{headers}->{'x-encryption-pass'}->[0] || undef;
-	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || undef;
+	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || 'none/given';
+	my @allowedType = qw(image/jpeg image/gif image/png text/csv application/x-x509-ca-cert text/plain);
 	my ($selfProvided);
 
 	## We need at least a little bit of data
@@ -190,7 +173,14 @@ sub uploadEntry {
 	## We support a maximum length
 	if (length($uploadData) > $self->config->{maxLength}) {
 		$self->app->log->error('Request exceeds upload limit.');
-		$self->jsonError('Requested data exceeds upload limit', 400);
+		$self->jsonError('Requested data exceeds upload limit', 413);
+		return undef;
+	}
+
+	## We support only images and text files
+	$self->app->log->debug(Dumper $fileType);
+	if (!grep {$fileType eq $_} @allowedType) {
+		$self->jsonError('Filetype not supported.', 406);
 		return undef;
 	}
 
@@ -203,6 +193,25 @@ sub uploadEntry {
 		$selfProvided = 1;
 	}
 
+	## Encrypt and store the data
+	my $uuid = $self->encStoreData($uploadData, $encPass, $fileType);
+	
+	## Free some memory
+	undef $uploadData;
+
+	## We are good so far
+	if (defined($selfProvided) && $selfProvided == 1) { $encPass = '** SELF-PROVIDED **' }
+	return $self->render(
+		status	=> 200,
+		json	=> {
+			status		=> 'ok',
+			statuscode	=> 200,
+			url			=> $self->url_for('decryptForm', uuid => $uuid),
+			absurl		=> $self->url_for('decryptForm', uuid => $uuid)->to_abs,
+			password	=> $encPass,
+		},
+	);
+
 	return $self->render(
 		status	=> 200,
 		json	=> {
@@ -214,7 +223,6 @@ sub uploadEntry {
 	);
 }
 # }}}
-	
 
 1;
 # vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:

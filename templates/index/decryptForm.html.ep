@@ -11,7 +11,6 @@
 								</label>
 							</div>
 							%= hidden_field fastcrypt_id => $c->stash('uuid');
-							%= csrf_field
 							<button class="small radius" type="submit">Show note</button>
 						</fieldset>
 					</form>
