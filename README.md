@@ -2,16 +2,4 @@
 
 ## Easyily share a note - quick, secure, anonymous
 
-### Requirements
-You will need Perl5 and Mojolicious as minimal requirements to run this. Also a "secrets" file needs to be created (which currently only stores the session secret).
-
-
-```
-touch conf/FastCryptSecret.conf
-echo "{ sessionSecret => 'YOUR SECRET HERE', }" >conf/FastCryptSecret.conf
-```
-
-A "files" directory is also a requirement
-```
-mkdir files
-```
+For more information check out the [Wiki](https://bitbucket.org/wneessen/fastcry.pt/wiki/). Report any issue in the [issue tracker](https://bitbucket.org/wneessen/fastcry.pt/issues?status=new&status=open)
