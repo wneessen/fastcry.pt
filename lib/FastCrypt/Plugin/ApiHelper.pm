@@ -7,6 +7,7 @@ use Mojo::Base 'Mojolicious::Plugin';
 use Carp;
 use Data::Dumper;
 use File::Path qw/make_path/;
+use UUID qw/uuid/;
 our $VERSION = '0.01';
 
 ## Register the plugin // register {{{
@@ -15,6 +16,7 @@ sub register {
 	
 	## Initialize the helper
 	$app->helper(jsonError		=> \&_jsonError);
+	$app->helper(getStoreFiles	=> \&_getStoreFiles);
 	$app->helper(createDir		=> \&_createDir);
 	$app->helper(entryExists	=> \&_entryExists);
 	$app->helper(validatePass	=> \&_validatePass);
@@ -50,6 +52,40 @@ sub _jsonError {
 	);
 
 	return $statusCode;
+}
+# }}}
+
+## Generate filehandles for storing the encrypted data // _getStoreFiles() {{{
+##		Requires:	nothing
+##		Returns:	encFileHandle, metaFileHandle, typeFileHandl
+sub _getStoreFiles {
+	my $self = shift;
+	my $uuid = lc uuid;
+
+	my $filePath = $self->createDir($uuid);
+	return undef if !defined($filePath);
+
+	## Make sure no datafile is present
+	if (-e $filePath . '/data') {
+		$self->app->log->error('Datafile "' . $filePath . '/data' . '" is already present. Aborting.');
+		return undef;
+	}
+	
+	## Open the files
+	open (my $encFile, '>', $filePath . '/data') or do {
+		$self->app->log->error('Unable to open file for writing: ' . $!);
+		return undef;
+	};
+	open (my $metaFile, '>', $filePath . '/meta') or do {
+		$self->app->log->error('Unable to open meta file for writing: ' . $!);
+		return undef;
+	};
+	open (my $typeFile, '>', $filePath . '/type') or do {
+		$self->app->log->error('Unable to open type file for writing: ' . $!);
+		return undef;
+	};
+
+	return ($encFile, $metaFile, $typeFile, $uuid);
 }
 # }}}
 

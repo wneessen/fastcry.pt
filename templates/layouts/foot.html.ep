@@ -17,6 +17,11 @@
 		%= javascript('/foundation/js/foundation/foundation.js')
 		%= javascript('/foundation/js/foundation/foundation.topbar.js?' . app->config->{version})
 		%= javascript('/js/sweetalert.min.js')
+		%= javascript begin
+		window.fd = {logging: false,};
+		% end
+		%= javascript('/js/filedrop-min.js')
+		%= javascript('/js/fc-filedrop.js')
 		%= javascript('/js/fastcrypt.js?' . app->config->{version})
 		%= javascript begin
 		// Foundation initalization
