@@ -48,9 +48,9 @@ sub showAbout {
 # }}}
 
 ## Imprint page // showImprint() {{{
-sub showImprint {
+sub showDonate {
 	my $self = shift;
-	my $defaultWrapper = 'wrapper/indexShowImprint';
+	my $defaultWrapper = 'wrapper/indexShowDonate';
 
 	## Set the authorization cookie for the API access
 	$self->session(apiAccess => 1);

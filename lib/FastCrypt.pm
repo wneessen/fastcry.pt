@@ -38,6 +38,7 @@ sub startup {
     ## Web interface routes
     $r->get('/')->to('index#showForm')->name('defaultForm');
     $r->get('/about')->to('index#showAbout')->name('aboutPage');
+    $r->get('/donate')->to('index#showDonate')->name('donatePage');
     $r->get('/d/:uuid' => [uuid => qr/[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+/])->to('index#showDecrypt')->name('decryptForm');
 }
 # }}}

@@ -1,0 +1,28 @@
+			<%== devHtmlComment('begin entry form section') %>
+			<div class="topMargin"></div>
+			<div class="row" id="entryFormDiv">
+				<div id="aboutBox" class="small-10 medium-10 large-10 small-centered columns">
+					<fieldset class="basicForm formFieldset radius">
+						<div>
+							<h4>Donate</h4>
+							If you like fastcry.pt and think it's worth
+							supporting, please consider donating to the
+							project. I've put a lot of my free time into this
+							project and donations help to justify it. Thanks
+							for your support!<br /><br />
+							<h4>How to donate?</h4>
+							You can eaysily donate using Paypal. Just use the "Donate" button below.<br /><br />
+							<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+								<input type="hidden" name="cmd" value="_s-xclick">
+								<input type="hidden" name="hosted_button_id" value="U7YWKFWQEJ3T2">
+								<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+								<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+							</form>
+							<br />
+							If you prefer Bitcoin, just send your donation to <strong>1ENGpgotx6dmFuUGZUnsEzgXdpzX9obNKu</strong><br />
+							<img src="https://blockchain.info/qr?data=1ENGpgotx6dmFuUGZUnsEzgXdpzX9obNKu&size=200" width="200" height="200" />
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<%== devHtmlComment('end entry form section') %>
