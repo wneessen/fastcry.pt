@@ -21,5 +21,4 @@
 					</form>
 				</div>
 			</div>
-			<input type="file" onchange="onChange(event)">
 			<%== devHtmlComment('end entry form section') %>
