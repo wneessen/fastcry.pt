@@ -3,6 +3,16 @@
 	<head>
 		%= t meta => (charset => 'utf-8')
 		%= t meta => (name => 'viewport', content => 'width=device-width, initial-scale=1.0')
+		%= t meta => (name => 'identifier-url', content => 'https://fastcry.pt/')
+		%= t meta => (name => 'title', content => 'Fastcry.pt // Easyily share a note - quick, secure, anonymous')
+		%= t meta => (name => 'description', content => 'Share your notes, images or text files with others. Easy, quickly, secure')
+		%= t meta => (name => 'abstract', content => 'Share your notes, images or text files with others. Easy, quickly, secure')
+		%= t meta => (name => 'keywords', content => 'tool, tools, security, note, notes, images, textfiles, text, sharing, secure, aes256, encryption, decryption, upload, dropzone')
+		%= t meta => (name => 'author', content => 'Winfried Neessen')
+		%= t meta => (name => 'revisit-after', content => '15')
+		%= t meta => (name => 'language', content => 'EN')
+		%= t meta => (name => 'copyright', content => '(C) 2017 by Winfried Neessen')
+		%= t meta => (name => 'robots', content => 'index, follow')
 		%= t title => app->config->{productName}
 		%= stylesheet('/css/sweetalert.css')
 		%= stylesheet('/css/font-awesome.min.css')

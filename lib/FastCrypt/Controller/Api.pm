@@ -70,7 +70,12 @@ sub storeEntry {
 	}
 	
 	## Encrypt and store the data
-	my $uuid = $self->encStoreData($entryData, $encPass, 'PLAIN');
+	my $uuid = $self->encStoreData($entryData, $encPass, 'text/plain');
+	if (!defined($uuid)) {
+		$self->app->log->error('Encryption process returned no data.');
+		$self->jsonError('An unexpected error occured during the encryption process', 500);
+		return undef;
+	}
 
 	## Free some memory
 	undef $entryData;
@@ -120,7 +125,7 @@ sub decryptEntry {
 	my $filePath = $self->entryExists($uuid);
 	open (ENCFILE, $filePath . '/data') or do {
 		$self->app->log->error('Unable to open file for writing: ' . $1);
-		$self->jsonError('An unexpected error occured.', 500);
+		$self->jsonError('An unexpected error occured during the decryption process.', 500);
 		return undef;
 	};
 	while(my $lenght = sysread(ENCFILE, my $buffer, 1024)) {
@@ -138,7 +143,7 @@ sub decryptEntry {
 	}
 	if (!defined($decData)) {
 		$self->app->log->error('Decryption returned no data');
-		$self->jsonError('An unexpected error occured.', 500);
+		$self->jsonError('An unexpected error occured during the decryption process.', 500);
 		return undef;
 	}
 
@@ -160,7 +165,7 @@ sub uploadEntry {
 	my $self = shift;
 	my $uploadData	= $self->req->body;
 	my $encPass		= $self->req->headers->{headers}->{'x-encryption-pass'}->[0] || undef;
-	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || 'none/given';
+	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || $self->guessFileType($uploadData);
 	my @allowedType = qw(image/jpeg image/gif image/png text/csv application/x-x509-ca-cert text/plain);
 	my ($selfProvided);
 
@@ -178,7 +183,6 @@ sub uploadEntry {
 	}
 
 	## We support only images and text files
-	$self->app->log->debug(Dumper $fileType);
 	if (!grep {$fileType eq $_} @allowedType) {
 		$self->jsonError('Filetype not supported.', 406);
 		return undef;
@@ -195,6 +199,11 @@ sub uploadEntry {
 
 	## Encrypt and store the data
 	my $uuid = $self->encStoreData($uploadData, $encPass, $fileType);
+	if (!defined($uuid)) {
+		$self->app->log->error('Encryption process returned no data.');
+		$self->jsonError('An unexpected error occured during the encryption process', 500);
+		return undef;
+	}
 	
 	## Free some memory
 	undef $uploadData;

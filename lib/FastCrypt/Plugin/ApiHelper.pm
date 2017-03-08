@@ -6,9 +6,10 @@ package FastCrypt::Plugin::ApiHelper;
 use Mojo::Base 'Mojolicious::Plugin';
 use Carp;
 use Data::Dumper;
+use File::MMagic::XS qw(:compat);
 use File::Path qw/make_path/;
 use UUID qw/uuid/;
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 ## Register the plugin // register {{{
 sub register {
@@ -22,6 +23,7 @@ sub register {
 	$app->helper(getFileType	=> \&_getFileType);
 	$app->helper(entryExists	=> \&_entryExists);
 	$app->helper(validatePass	=> \&_validatePass);
+	$app->helper(guessFileType	=> \&_guessFileType);
 }
 # }}}
 
@@ -289,4 +291,19 @@ sub _validatePass {
 }
 # }}}
 
+## Guess the MIME type of uploaded content // _guessFileType() {{{
+##		Requires:	data
+##		Returns:	MIME type
+sub _guessFileType {
+	my $self = shift;
+	my $data = shift;
+	
+	if (!defined($data)) {
+		croak('Missing parameter for guessFileType()');
+	}
+
+	my $mmagic = File::MMagic::XS->new('contrib/magic');
+	return $mmagic->checktype_contents($data);
+}
+# }}}
 1;

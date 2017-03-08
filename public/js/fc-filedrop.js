@@ -12,6 +12,19 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 			// Error handling
 			file.event('error', function (e, xhr) {	
 				zone.el.value = '';
+				console.log(xhr.status);
+				// nginx returned 413, not fastcrypt
+				if (xhr.status === 413) {
+					swal({
+						title:	'Oops!',
+						text:	'Sorry, but the file you dropped, exceeds the upload limit.',
+						type:	'error',
+						confirmButtonText: 'That\s ok. I\'ll choose a smaller file.',
+					});
+					return false;
+				}
+
+				// fastcrypt returned errors
 				var responseObj = JSON.parse(xhr.responseText);
 				if (responseObj.statuscode === 406) {
 					swal({
@@ -21,7 +34,33 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 						confirmButtonText: 'That\s ok. I\'ll choose a different file.',
 					});
 				}
+				if (responseObj.statuscode === 413) {
+					swal({
+						title:	'Oops!',
+						text:	'Sorry, but the file you dropped, exceeds the upload limit.',
+						type:	'error',
+						confirmButtonText: 'That\s ok. I\'ll choose a smaller file.',
+					});
+				}
+				if (responseObj.statuscode === 500) {
+					swal({
+						title:	'Oops!',
+						text:	'An unexpected error occured. We are very sorry about that.',
+						type:	'error',
+						confirmButtonText: 'That\s ok. I\'ll try again later.',
+					});
+				}
 				return false;
+			});
+
+			// Progress bar
+			file.event('sendXHR', function () {
+				fd.byID('bar_zone10').style.width = 0;
+			});
+			file.event('progress', function (current, total) {
+				var width = current / total * 100 + '%';
+				console.log('Progress: ' + width);
+				fd.byID('bar_zone10').style.width = width;
 			});
 			
 			// All good

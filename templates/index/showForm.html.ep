@@ -13,6 +13,7 @@
 									%= input_tag('fastcrypt_pass', id => 'entryPass', placeholder => 'Enter your own encryption password', class => 'radius', type => 'password');
 								</label>
 							</div>
+							<p class="progress"><span id="bar_zone10"></span></p>
 							<button class="small radius" type="submit">Store</button>
 							<div id="infoField">
 								Your note will be automatically deleted after 30 days

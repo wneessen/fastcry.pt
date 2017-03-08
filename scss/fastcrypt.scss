@@ -166,5 +166,11 @@ textarea#decBox {
 	border-color: $red;
 	background: #999;
 	cursor: pointer;
+	background-image: url('/img/dropicon.png');
+	background-repeat: no-repeat;
+	background-position: center; 
+    opacity : 0.8;
+	z-index: -1;
+	filter: alpha(opacity=80);
 }
 /* FileDrop sepcific stuff end here */
