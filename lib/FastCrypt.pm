@@ -21,9 +21,6 @@ sub startup {
     $self->sessions->default_expiration($config->{sessionExpiration});
     $self->sessions->cookie_name($config->{productNameShort} . '_sess');
 
-	## Log params
-	if ($self->mode eq 'development') { $self->plugin('ParamLogger'); }
-
     ## Load some AppHelper plugins
     $self->plugin('FastCrypt::Plugin::ApiHelper');
     $self->plugin('FastCrypt::Plugin::CryptoHelper');
