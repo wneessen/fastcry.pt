@@ -11,8 +11,14 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 
 			// Error handling
 			file.event('error', function (e, xhr) {	
+				var progBarDiv	= document.getElementById('progBarDiv');
+				var progBar		= document.getElementById('progressBar');
+				if (typeof progBar !== 'undefined' && typeof progBarDiv !== 'undefined') {
+					progBar.style.width = 0;
+					progBarDiv.style.display = 'none';
+				};
 				zone.el.value = '';
-				console.log(xhr.status);
+
 				// nginx returned 413, not fastcrypt
 				if (xhr.status === 413) {
 					swal({
@@ -54,17 +60,32 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 			});
 
 			// Progress bar
+			var progBarDiv	= document.getElementById('progBarDiv');
+			if (typeof progBarDiv !== 'undefined') {
+				progBarDiv.style.display = 'block';
+			}
 			file.event('sendXHR', function () {
-				fd.byID('bar_zone10').style.width = 0;
+				var progBar = document.getElementById('progressBar');
+				if (typeof progBar !== 'undefined') {
+					progBar.style.width = 0;
+				}
 			});
 			file.event('progress', function (current, total) {
-				var width = current / total * 100 + '%';
-				console.log('Progress: ' + width);
-				fd.byID('bar_zone10').style.width = width;
+				var progBar	= document.getElementById('progressBar');
+				if (typeof progBar !== 'undefined') {
+					var width = current / total * 100 + '%';
+					progBar.style.width = width;
+				}
 			});
 			
 			// All good
 			file.event('done', function (xhr) {
+				var progBarDiv	= document.getElementById('progBarDiv');
+				var progBar		= document.getElementById('progressBar');
+				if (typeof progBar !== 'undefined' && typeof progBarDiv !== 'undefined') {
+					progBar.style.width = 0;
+					progBarDiv.style.display = 'none';
+				};
 				var encPass = document.getElementById('entryPass').value;
 				if (typeof encPass !== 'undefined' && encPass !== '') {
 					encPass.value = '';
@@ -90,6 +111,7 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 					xhr.setRequestHeader('X-Encryption-Pass', encPass);
 				}
 			});
+
 			// Send the file
 			file.sendTo('/api/v1/upload');
 		});

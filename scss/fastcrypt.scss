@@ -11,6 +11,7 @@
 "foundation/components/grid",
 "foundation/components/pagination",
 "foundation/components/panels",
+"foundation/components/progress-bars",
 "foundation/components/reveal",
 "foundation/components/side-nav",
 "foundation/components/type",
@@ -158,6 +159,9 @@ textarea#decBox {
 #imgDiv {
 	height: rem-calc(400);
 	overflow: scroll;
+}
+#progBarDiv {
+	display:  none;
 }
 /* Lightbox specific definitions end here */
 
