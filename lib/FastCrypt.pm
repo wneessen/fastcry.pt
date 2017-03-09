@@ -4,8 +4,6 @@
 
 package FastCrypt;
 use Mojo::Base 'Mojolicious';
-use Data::Dumper;
-use Carp;
 
 ## Main server startup method // startup() {{{
 sub startup {
