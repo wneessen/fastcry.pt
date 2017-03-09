@@ -7,6 +7,13 @@
 			</div>
 		</div>
 		%== devHtmlComment('End noscript box');
+		%== devHtmlComment('Begin donate box');
+		<div class="row dashboard" id="donateinfo">
+			<div id="donateBox" class="small-10 medium-8 large-8 small-centered columns">
+				<a href="<%= url_for('donatePage') %>">Consider supporting the project</a>
+			</div>
+		</div>
+		%== devHtmlComment('End donate box');
 		%= javascript begin
 		document.addEventListener('DOMContentLoaded', function(event) {
 			document.getElementById('noscriptinfo').style.display = 'none';
