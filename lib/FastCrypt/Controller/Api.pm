@@ -134,7 +134,7 @@ sub decryptEntry {
 	close(ENCFILE);
 	my $fileType = $self->getFileType($uuid, $decPass);
 	my $decData;
-	if ($fileType =~ /^image\//) {
+	if ($fileType =~ /^image\// or $fileType =~ /^application\/pdf/) {
 		$decData = $self->decData($data, $decPass, 1);
 		$decData = 'data:' . lc($fileType) . ';base64,' . MIME::Base64::encode_base64($decData, '');
 	}
@@ -166,7 +166,7 @@ sub uploadEntry {
 	my $uploadData	= $self->req->body;
 	my $encPass		= $self->req->headers->{headers}->{'x-encryption-pass'}->[0] || undef;
 	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || $self->guessFileType($uploadData);
-	my @allowedType = qw(image/jpeg image/gif image/png text/csv application/x-x509-ca-cert text/plain);
+	my @allowedType = qw(image/jpeg image/gif image/png text/csv text/html application/x-x509-ca-cert text/plain application/pdf);
 	my ($selfProvided);
 
 	## We need at least a little bit of data

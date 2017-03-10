@@ -160,6 +160,10 @@ textarea#decBox {
 	height: rem-calc(400);
 	overflow: scroll;
 }
+#pdfDiv {
+	height: rem-calc(400);
+	overflow: none;
+}
 #progBarDiv {
 	display:  none;
 }

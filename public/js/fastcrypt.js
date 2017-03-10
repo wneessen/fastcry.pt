@@ -107,13 +107,15 @@ function decData() {
 
 		if (responseObj.statuscode === 200) {
 			decryptPass.value = ''
-			styleSheet.insertRule('.sweet-alert { width: 70%; left: 50%; position: fixed; margin-left: -35%; }', 122);
-			var imgPattern = /^image\//;
-			var matchImage = responseObj.filetype.match(imgPattern);
+			styleSheet.insertRule('.sweet-alert { width: 70%; left: 50%; position: fixed; margin-left: -35%; }', 3);
+			var imgPattern	= /^image\//;
+			var pdfPattern	= /^application\/pdf/;
+			var matchImage	= responseObj.filetype.match(imgPattern);
+			var matchPdf	= responseObj.filetype.match(pdfPattern);
 			if (matchImage) {
 				swal({
 					title:		'Decryption done!',
-					text:		successDecImg(responseObj.data),
+					text:		successDecImg(),
 					html:		true,
 					type:		'success',
 	
@@ -121,6 +123,17 @@ function decData() {
 					closeOnConfirm:		true,
 				});
 				showImage(responseObj.data);
+			}
+			else if (matchPdf) {
+				swal({
+					title:		'Decryption done!',
+					text:		successDecPdf(responseObj.data),
+					html:		true,
+					type:		'success',
+	
+					showCancelButton:	false,
+					closeOnConfirm:		true,
+				});
 			}
 			else {
 				swal({
@@ -135,7 +148,7 @@ function decData() {
 			}
 		}
 		else {
-			styleSheet.insertRule('.sweet-alert { width: 40%; left: 50%; position: fixed; margin-left: -20%; }', 123);
+			styleSheet.insertRule('.sweet-alert { width: 40%; left: 50%; position: fixed; margin-left: -20%; }', 4);
 			swal({
 				title:	'Oops!',
 				text:	'We are very sorry, but we couldn\'t process your request.',
@@ -162,10 +175,21 @@ function successDec(data) {
 // }}}
 
 // Prepare the output for the decryption alert modal (with image) // successDecImg() {{{
-function successDecImg(data) {
+function successDecImg() {
 	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
 	response		+= '<label>Your image:<br />';
 	response		+= '<div id="imgDiv"><canvas id="decImg"></canvas></div>';
+	response		+= '</label></span>';
+
+	return response;
+}
+// }}}
+
+// Prepare the output for the decryption alert modal (with PDF) // successDecPdf() {{{
+function successDecPdf(data) {
+	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
+	response		+= '<label>Your PDF:<br />';
+	response		+= '<div id="pdfDiv"><object data="' + data + '" type="application/pdf" width="100%" height="100%"></object></div>';
 	response		+= '</label></span>';
 
 	return response;
