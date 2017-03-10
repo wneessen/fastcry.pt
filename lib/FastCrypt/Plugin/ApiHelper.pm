@@ -278,7 +278,7 @@ sub _validatePass {
 	close(METAFILE);
 
 	## Decrypt the data and validate
-	my $decData = $self->decData($data, $pass);
+	my $decData = $self->decData($data, $pass, 1);
 	if ($decData ne $pass) {
 		return undef;
 	}

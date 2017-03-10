@@ -86,8 +86,8 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 					progBar.style.width = 0;
 					progBarDiv.style.display = 'none';
 				};
-				var encPass = document.getElementById('entryPass').value;
-				if (typeof encPass !== 'undefined' && encPass !== '') {
+				var encPass = document.getElementById('entryPass');
+				if (typeof encPass !== 'undefined' && encPass !== null) {
 					encPass.value = '';
 				};
 				zone.el.value = '';
@@ -108,7 +108,7 @@ if (typeof entryBox !== 'undefined' || entryBox !== '') {
 			file.event('xhrSetup', function (xhr) {
 				var encPass = document.getElementById('entryPass').value;
 				if (typeof encPass !== 'undefined' && encPass !== '') {
-					xhr.setRequestHeader('X-Encryption-Pass', encPass);
+					xhr.setRequestHeader('X-Encryption-Pass', b64Encode(encPass));
 				}
 			});
 

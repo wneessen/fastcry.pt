@@ -66,6 +66,9 @@ sub storeEntry {
 		undef $selfProvided;
 	}
 	else {
+		if (utf8::is_utf8($encPass)) {
+			$encPass = Encode::encode('UTF-8', $encPass);
+		}
 		$selfProvided = 1;
 	}
 	
@@ -113,8 +116,11 @@ sub decryptEntry {
 		$self->jsonError('Fastcrypt ID not given', 400);
 		return undef;
 	}
-
+	
 	## Validate the password
+	if (utf8::is_utf8($decPass)) {
+		$decPass = Encode::encode('UTF-8', $decPass);
+	}
 	if (!$self->validatePass($uuid, $decPass)) {
 		$self->jsonError('Decryption failed', 500);
 		return undef;
@@ -164,7 +170,7 @@ sub decryptEntry {
 sub uploadEntry {
 	my $self = shift;
 	my $uploadData	= $self->req->body;
-	my $encPass		= $self->req->headers->{headers}->{'x-encryption-pass'}->[0] || undef;
+	my $encPass		= MIME::Base64::decode_base64($self->req->headers->{headers}->{'x-encryption-pass'}->[0]) || undef;
 	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || $self->guessFileType($uploadData);
 	my @allowedType = qw(image/jpeg image/gif image/png text/csv text/html application/x-x509-ca-cert text/plain application/pdf);
 	my ($selfProvided);
@@ -194,6 +200,9 @@ sub uploadEntry {
 		undef $selfProvided;
 	}
 	else {
+		if (utf8::is_utf8($encPass)) {
+			$encPass = Encode::encode('UTF-8', $encPass);
+		}
 		$selfProvided = 1;
 	}
 

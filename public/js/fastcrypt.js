@@ -230,7 +230,14 @@ function showImage(data) {
 	tempImage.src = data;
 	return true;
 }
-// }
-		
+// }}}
+
+// UTF8-safe Base64 encoding // b64Encode() {{{
+function b64Encode(string) {
+	return btoa(encodeURIComponent(string).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+		return String.fromCharCode('0x' + p1);
+	}));
+}
+// }}}
 
 // vim: set ts=4 sw=4 sts=4 noet ft=perl foldmethod=marker norl:
