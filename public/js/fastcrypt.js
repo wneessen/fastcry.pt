@@ -106,6 +106,8 @@ function decData() {
 		var responseObj = JSON.parse(xhr.responseText);
 
 		if (responseObj.statuscode === 200) {
+			var fileExt = responseObj.filetype.split('/')[1];
+			if (fileExt === 'plain') { fileExt = 'txt' }
 			decryptPass.value = ''
 			styleSheet.insertRule('.sweet-alert { width: 70%; left: 50%; position: fixed; margin-left: -35%; }', 3);
 			var imgPattern	= /^image\//;
@@ -123,6 +125,12 @@ function decData() {
 					closeOnConfirm:		true,
 				});
 				showImage(responseObj.data);
+				var downloadBtn = document.getElementById('downloadBtn');
+				if (typeof downloadBtn !== 'undefined' && downloadBtn !== null) {
+					downloadBtn.href	= responseObj.data;
+					downloadBtn.target	= '_blank';
+					downloadBtn.download= 'download.' + fileExt;
+				}
 			}
 			else if (matchPdf) {
 				swal({
@@ -134,6 +142,12 @@ function decData() {
 					showCancelButton:	false,
 					closeOnConfirm:		true,
 				});
+				var downloadBtn = document.getElementById('downloadBtn');
+				if (typeof downloadBtn !== 'undefined' && downloadBtn !== null) {
+					downloadBtn.href	= responseObj.data;
+					downloadBtn.target	= '_blank';
+					downloadBtn.download= 'download.' + fileExt;
+				}
 			}
 			else {
 				swal({
@@ -145,6 +159,12 @@ function decData() {
 					showCancelButton:	false,
 					closeOnConfirm:		true,
 				});
+				var downloadBtn = document.getElementById('downloadBtn');
+				if (typeof downloadBtn !== 'undefined' && downloadBtn !== null) {
+					downloadBtn.href	= 'data:text/plain,' + responseObj.data;
+					downloadBtn.target	= '_blank';
+					downloadBtn.download= 'download.' + fileExt;
+				}
 			}
 		}
 		else {
@@ -168,7 +188,7 @@ function successDec(data) {
 	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
 	response		+= '<label>Your note:';
 	response		+= '<textarea id="decBox" onclick="select()" style="margin: 0; margin-left: -0.1875rem; padding: 0 0.1875rem; display: block" name="yourdata">' + data + '</textarea>';
-	response		+= '</label></span>';
+	response		+= '</label><br /><a href="#" id="downloadBtn">Download as file</a></span>';
 
 	return response;
 }
@@ -179,7 +199,7 @@ function successDecImg() {
 	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
 	response		+= '<label>Your image:<br />';
 	response		+= '<div id="imgDiv"><canvas id="decImg"></canvas></div>';
-	response		+= '</label></span>';
+	response		+= '</label><br /><a href="#" id="downloadBtn">Download image as file</a></span>';
 
 	return response;
 }
@@ -190,7 +210,7 @@ function successDecPdf(data) {
 	var response	 = 'Your note has been successfully decrypted.<span class="successModal" style="margin-top: 15px; display: block;">';
 	response		+= '<label>Your PDF:<br />';
 	response		+= '<div id="pdfDiv"><object data="' + data + '" type="application/pdf" width="100%" height="100%"></object></div>';
-	response		+= '</label></span>';
+	response		+= '</label><br /><a href="#" id="downloadBtn">Download PDF as file</a></span>';
 
 	return response;
 }
