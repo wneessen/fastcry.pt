@@ -170,10 +170,10 @@ sub decryptEntry {
 sub uploadEntry {
 	my $self = shift;
 	my $uploadData	= $self->req->body;
-	my $encPass		= MIME::Base64::decode_base64($self->req->headers->{headers}->{'x-encryption-pass'}->[0]) || undef;
-	my $fileType	= $self->req->headers->{headers}->{'x-file-type'}->[0] || $self->guessFileType($uploadData);
+	my $encPass		= $self->req->headers->{headers}->{'x-encryption-pass'}->[0] || undef;
 	my @allowedType = qw(image/jpeg image/gif image/png text/csv text/html application/x-x509-ca-cert text/plain application/pdf);
-	my ($selfProvided);
+	my ($selfProvided, $fileType);
+	if (defined($encPass)) { $encPass = MIME::Base64::decode_base64($encPass) }
 
 	## We need at least a little bit of data
 	if (!defined($uploadData)) {
@@ -186,6 +186,24 @@ sub uploadEntry {
 		$self->app->log->error('Request exceeds upload limit.');
 		$self->jsonError('Requested data exceeds upload limit', 413);
 		return undef;
+	}
+
+	## Identify the filetype
+	my $ftHead	= $self->req->headers->{headers}->{'x-file-type'}->[0] || undef;
+	my $ftGuess	= $self->guessFileType($uploadData);
+	if (defined($ftHead)) {
+		my ($ftHeadGroup, $ftHeadSubgroup)		= split(/\//, $ftHead, 2);
+		my ($ftGuessGroup, $ftGuessSubgroup)	= split(/\//, $ftGuess, 2);
+		## We rather trust the guess
+		if ($ftHeadGroup ne $ftGuessGroup) {
+			$fileType = $ftGuess;
+		}
+		else {
+			$fileType = $ftHead;
+		}
+	}
+	else {
+		$fileType = $ftGuess;
 	}
 
 	## We support only images and text files
