@@ -1,0 +1,88 @@
+			<%== devHtmlComment('begin entry form section') %>
+			<div class="topMargin"></div>
+			<div class="row" id="entryFormDiv">
+				<div id="aboutBox" class="small-10 medium-10 large-10 small-centered columns">
+					<fieldset class="basicForm formFieldset radius">
+						<div>
+							<h4>Terms of service</h4>
+							<strong>Preamble</strong><br />
+							fastcry.pt is a free (<i>free</i> as "in free
+							beer") service to securely share data like text
+							notes, images or PDF files over the internet. Even
+							though developed at best knowledge and will, it is
+							possible that this software will contain bugs and,
+							despite best efforts, uptime may at times be less
+							than optimal. Also a data loss is possible (besides
+							of the automatic removal of files, older than 30 days)<br /><br />
+							<strong>Terms</strong>
+							<ol>
+								<li>By using this service, you understand that
+									the owner of this website, Winfried
+									Neessen, is not responsible or liable for
+									data loss with regard to your uploads or to
+									any file you opened/downloaded via
+									fastcry.pt</li>
+								<li>You understand that your uploads may be
+									cancelled and/or deleted at any time
+									without notice if, in the opinion of the
+									owner, the contents of any upload: <ul>
+										<li>creating an undue strain on the
+											owners web sites, servers,
+											bandwidth or other resources</li>
+										<li>associated in any way with SPAM
+											(unsolicited email)</li> <li>deemed
+											to be offensive, illegal or obscene
+											in any way</li> </ul> </li> <li>The
+									site owner may also terminate your
+									access/uploads if: <ul> <li>Your uploads
+											are involved in any attempts to
+											undermine the security of the
+											owners servers or data</li> </ul>
+								</li> <li>You understand that you have no legal
+								entitlement to the service offered by
+								fastcry.pt. Once your data has been removed,
+								your access to the service will have
+								ceased</li> <li>The service associated with
+								this site is subject to change. For example,
+								features may be added, upgraded, altered or
+								cancelled at any time without notice. In
+								practice, features are rarely removed, but you
+								should be aware of this possibility</li>
+								<li>In no event will the site owner/fastcry.pt
+									be liable to you for any damages of any
+									kind, including but not limited to,
+									compensatory damages, lost profits, lost
+									data or any form of special, incidental,
+									indirect, consequential or punitive damages
+									of any kind whether based on breach of
+									contract or warranty, tort (including
+									negligence), product liability or
+									otherwise, even if the site owner is
+									informed in advance of the possibility of
+									such damages.</li>
+								<li>This Agreement will be governed by and
+									construed in accordance with the laws of
+									Germany, without regard to your actual
+									province or country of residence. Any
+									waiver or other modification of any
+									provision of this Agreement will be
+									effective only if in writing and signed by
+									the site owner. If for any reason a court
+									of competent jurisdiction finds any
+									provision or portion of this Agreement to
+									be unenforceable, the remainder of this
+									Agreement will continue in full force and
+									effect. This Agreement constitutes the
+									entire Agreement between the parties with
+									respect to the subject matter hereof, and
+									supersedes and replaces all prior or
+									contemporaneous understandings or
+									agreements, written or oral, regarding such
+									subject matter.</li>
+								<li>By using this service, you fully agree on this terms.</li>
+							</ol>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<%== devHtmlComment('end entry form section') %>

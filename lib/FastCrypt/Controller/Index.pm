@@ -40,20 +40,23 @@ sub showAbout {
 	my $self = shift;
 	my $defaultWrapper = 'wrapper/indexShowAbout';
 
-	## Set the authorization cookie for the API access
-	$self->session(apiAccess => 1);
+	return $self->render(status => 200, template => $defaultWrapper);
+}
+# }}}
+
+## Donation page // showDonate() {{{
+sub showDonate {
+	my $self = shift;
+	my $defaultWrapper = 'wrapper/indexShowDonate';
 
 	return $self->render(status => 200, template => $defaultWrapper);
 }
 # }}}
 
-## Imprint page // showImprint() {{{
-sub showDonate {
+## Terms of service page // showTerms() {{{
+sub showTerms {
 	my $self = shift;
-	my $defaultWrapper = 'wrapper/indexShowDonate';
-
-	## Set the authorization cookie for the API access
-	$self->session(apiAccess => 1);
+	my $defaultWrapper = 'wrapper/indexShowTerms';
 
 	return $self->render(status => 200, template => $defaultWrapper);
 }
