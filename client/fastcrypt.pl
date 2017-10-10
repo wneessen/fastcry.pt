@@ -31,6 +31,7 @@ my $apiUrl		= 'https://fastcry.pt';
 
 ## Need some help?
 showHelp() if (defined($opts{help}));
+showHelp() if (!defined($opts{file}));
 
 ## Check the file presence
 croak('File not present.') if (!-e $opts{file} || !-f $opts{file});
@@ -60,9 +61,7 @@ else {
 
 sub showHelp {
 	print "Usage: $0 [OPTIONS]\n";
-	print "\n\t-i, --id\t\tProvide an unique ID to identify the website.";
-	print "\n\t-ip, --ip\t\tProvide an IP to use for the X-Forwarded-For Header.";
-	print "\n\t-u, --url\t\tFull URL for the website to be fetched.";
+	print "\n\t-f, --id\t\tPath to file to upload";
 	print "\n\t-h, --help\t\tDisplay this help message.\n";
 	print "\n";
 	exit 1;
