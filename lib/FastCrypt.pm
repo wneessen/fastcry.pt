@@ -40,7 +40,7 @@ sub startup {
     $r->get('/about')->to('index#showAbout')->name('aboutPage');
     $r->get('/donate')->to('index#showDonate')->name('donatePage');
     $r->get('/terms')->to('index#showTerms')->name('termsPage');
-    $r->get('/d/:uuid' => [uuid => qr/[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+/])->to('index#showDecrypt')->name('decryptForm');
+    $r->get('/d/:uuid' => [uuid => qr/[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+\-[A-Za-z0-9]+/])->to('index#showDecrypt')->name('decryptForm');
 }
 # }}}
 

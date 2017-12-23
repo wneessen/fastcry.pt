@@ -24,6 +24,7 @@ sub register {
 	$app->helper(entryExists	=> \&_entryExists);
 	$app->helper(validatePass	=> \&_validatePass);
 	$app->helper(guessFileType	=> \&_guessFileType);
+	$app->helper(uuidCreate		=> \&_uuidCreate);
 }
 # }}}
 
@@ -66,7 +67,9 @@ sub _jsonError {
 ##		Returns:	encFileHandle, metaFileHandle, typeFileHandl
 sub _getStoreFiles {
 	my $self = shift;
-	my $uuid = lc uuid;
+
+	my $uuid = $self->uuidCreate || lc uuid;
+	return undef if !defined($uuid);
 
 	my $filePath = $self->createDir($uuid);
 	return undef if !defined($filePath);
@@ -304,6 +307,31 @@ sub _guessFileType {
 
 	my $mmagic = File::MMagic::XS->new('contrib/magic');
 	return $mmagic->checktype_contents($data);
+}
+# }}}
+
+## Create a cryptographically secure UUID // _uuidCreate() {{{
+##		Requires:	nothing
+##		Returns:	uuid
+sub _uuidCreate {
+	my $self = shift;
+	my $uuidChars = qq/abcdefghkmnpqrstuvwxyz23456789/;
+
+	## Generate random strings
+	my $csPrng = $self->genRandObj;
+	my $firstOct	= $csPrng->string_from($uuidChars, 10);
+	my $secondOct	= $csPrng->string_from($uuidChars, 4);
+	my $thirdOct	= $csPrng->string_from($uuidChars, 6);
+	my $fourthOct	= $csPrng->string_from($uuidChars, 8);
+	my $fifthOct	= $csPrng->string_from($uuidChars, 16);
+	my $sixthOct	= $csPrng->string_from($uuidChars, 2);
+
+	return lc $firstOct . '-'
+	. $secondOct . '-'
+	. $thirdOct . '-'
+	. $fourthOct . '-'
+	. $fifthOct . '-'
+	. $sixthOct;
 }
 # }}}
 1;

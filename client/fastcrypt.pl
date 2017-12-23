@@ -25,7 +25,7 @@ use Mojo::Util qw(url_escape);
 use Mojo::JSON qw(decode_json);
 
 ## Some vars
-our $VERSION	= '1.0.1';
+our $VERSION	= '1.0.2';
 my $xua			= 'fastcrypt.pl v' . $VERSION;
 my $apiUrl		= 'https://fastcry.pt';
 
@@ -61,7 +61,7 @@ else {
 
 sub showHelp {
 	print "Usage: $0 [OPTIONS]\n";
-	print "\n\t-f, --id\t\tPath to file to upload";
+	print "\n\t-f, --file\t\tPath to file to upload";
 	print "\n\t-h, --help\t\tDisplay this help message.\n";
 	print "\n";
 	exit 1;
