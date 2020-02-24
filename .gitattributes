@@ -1,0 +1,21 @@
+*.conf text
+*.conf.example text
+
+*.html.ep text diff=html
+*.mail.ep text
+
+*.pl text diff=perl
+*.pm text diff=perl
+*.js text diff=javascript
+
+*.png binary
+*.svg binary
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary
+*.ico binary
+
+public/css/*.css linguist-vendored
+public/js/foundation/* linguist-vendored
+public/js/jquery/* linguist-vendored
