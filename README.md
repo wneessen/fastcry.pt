@@ -9,4 +9,4 @@ The idea for fastcry.pt arose when I was in need for a quick and easy solution t
 You can simply use the public interface at [fastcry.pt](fastcry.pt) or you can clone this project to host your own copy of fastcry.pt
 
 ### Further information ###
-Check out the documenation in the [Wiki](https://bitbucket.org/wneessen/fastcry.pt/wiki/). Any issue or feature request can be reported using the [issue tracker](https://bitbucket.org/wneessen/fastcry.pt/issues?status=new&status=open). If you like the project, please consider supporting it with a [donation](https://fastcry.pt/donate).
+Check out the documenation in the [Wiki](https://github.com/wneessen/fastcry.pt/wiki). Any issue or feature request can be reported using the [issue tracker](https://github.com/wneessen/fastcry.pt/issues). If you like the project, please consider supporting it with a [donation](https://fastcry.pt/donate).
