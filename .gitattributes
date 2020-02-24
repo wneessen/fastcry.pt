@@ -19,3 +19,4 @@
 public/css/*.css linguist-vendored
 public/js/foundation/* linguist-vendored
 public/js/jquery/* linguist-vendored
+public/foundation/* linguist-vendored
