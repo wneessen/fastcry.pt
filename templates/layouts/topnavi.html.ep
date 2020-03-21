@@ -6,7 +6,7 @@
 					<h1>
 						<a href="<%= url_for('defaultForm') %>">
 							<%= app->config->{productName} %>
-							<span>Easyily share a note - quick, secure, anonymous</span>
+							<span>Easily share a note - quick, secure, anonymous</span>
 						</a>
 					</h1>
 				</li>
