@@ -4,7 +4,7 @@
 		%= t meta => (charset => 'utf-8')
 		%= t meta => (name => 'viewport', content => 'width=device-width, initial-scale=1.0')
 		%= t meta => (name => 'identifier-url', content => 'https://fastcry.pt/')
-		%= t meta => (name => 'title', content => 'Fastcry.pt // Easyily share a note - quick, secure, anonymous')
+		%= t meta => (name => 'title', content => 'Fastcry.pt // Easily share a note - quick, secure, anonymous')
 		%= t meta => (name => 'description', content => 'Share your notes, images or text files with others. Easy, quickly, secure')
 		%= t meta => (name => 'abstract', content => 'Share your notes, images or text files with others. Easy, quickly, secure')
 		%= t meta => (name => 'keywords', content => 'tool, tools, security, note, notes, images, textfiles, text, sharing, secure, aes256, encryption, decryption, upload, dropzone')
