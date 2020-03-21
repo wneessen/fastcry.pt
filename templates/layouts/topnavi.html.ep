@@ -18,8 +18,8 @@
 						<a href="<%= url_for('defaultForm') %>"><i class="fa fa-home"></i></a>
 						<ul class="dropdown">
 							<li><a href="<%= url_for('aboutPage') %>">What is this?</a></li>
-							<li><a href="https://bitbucket.org/wneessen/fastcry.pt/wiki/">Documentation</a></li>
-							<li><a href="https://bitbucket.org/wneessen/fastcry.pt/issues">Issue/Request tracker</a></li>
+							<li><a href="https://github.com/wneessen/fastcry.pt/wiki">Documentation</a></li>
+							<li><a href="https://github.com/wneessen/fastcry.pt/issues">Issue/Request tracker</a></li>
 							<li><a href="<%= url_for('donatePage') %>">Donate</a></li>
 							<li><a href="<%= url_for('termsPage') %>">Terms of service</a></li>
 						</ul>
