@@ -30,5 +30,7 @@ RUN         pacman -Rs --noconfirm --noprogressbar gcc make
 USER        fastcrypt
 VOLUME      ["/opt/fastcrypt/conf", "/opt/fastcrypt/files"]
 ENV         PATH=$PATH:/opt/fastcrypt/perl5/perlbrew/perls/perl-$PERL_VERSION/bin
+ENV         PWD=/opt/fastcrypt
+ENV         MOJO_REVERSE_PROXY=1
 EXPOSE      8080
 CMD         ["hypnotoad", "-f", "/opt/fastcrypt/script/fast_crypt"]
